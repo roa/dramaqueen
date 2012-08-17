@@ -13,6 +13,7 @@
 #include <pwd.h>
 
 #include "../config/Config.hpp"
+#include "../logger/Logger.hpp"
 
 namespace Dramaqueen
 {
@@ -30,6 +31,7 @@ private:
     passwd *pw;
 
     Config* config;
+    Logger* logger;
 
     void dropRights();
 public:
