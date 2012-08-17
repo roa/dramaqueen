@@ -5,7 +5,7 @@ namespace Dramaqueen
 
 BaseServer::BaseServer()
 {
-
+    config = Config::getSingletonPtr();
 }
 
 BaseServer::~BaseServer()
@@ -15,7 +15,7 @@ BaseServer::~BaseServer()
 
 void BaseServer::dropRights()
 {
-    pw = getpwnam( "roa" );
+    pw = getpwnam( config->getUser().c_str() );
     if (getuid() == 0) {
     if (setgid( 1000 ) != 0)
         printf("setgid: Unable to drop group privileges: %s", strerror(errno));

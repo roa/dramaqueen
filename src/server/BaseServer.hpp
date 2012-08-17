@@ -12,6 +12,8 @@
 #include <sstream>
 #include <pwd.h>
 
+#include "../config/Config.hpp"
+
 namespace Dramaqueen
 {
 
@@ -26,6 +28,8 @@ private:
     SSL *ssl;
     char *host;
     passwd *pw;
+
+    Config* config;
 
     void dropRights();
 public:
