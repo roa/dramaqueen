@@ -19,30 +19,30 @@ LIB =
 LDFLAGS = 
 
 INC_DEBUG =  $(INC)
-CFLAGS_DEBUG =  $(CFLAGS) -std=c++0x -g
+CFLAGS_DEBUG =  $(CFLAGS) -Wswitch-default -std=c++0x -g
 RESINC_DEBUG =  $(RESINC)
 RCFLAGS_DEBUG =  $(RCFLAGS)
 LIBDIR_DEBUG =  $(LIBDIR)
-LIB_DEBUG = $(LIB) -llua
+LIB_DEBUG = $(LIB) -llua -lgloox -lpthread
 LDFLAGS_DEBUG =  $(LDFLAGS)
 OBJDIR_DEBUG = obj/Debug
 DEP_DEBUG = 
 OUT_DEBUG = bin/Debug/dramaqueen
 
 INC_RELEASE =  $(INC)
-CFLAGS_RELEASE =  $(CFLAGS) -O2
+CFLAGS_RELEASE =  $(CFLAGS) -O2 -std=c++0x
 RESINC_RELEASE =  $(RESINC)
 RCFLAGS_RELEASE =  $(RCFLAGS)
 LIBDIR_RELEASE =  $(LIBDIR)
-LIB_RELEASE = $(LIB) -llua
+LIB_RELEASE = $(LIB) -llua -lgloox -lpthread
 LDFLAGS_RELEASE =  $(LDFLAGS) -s
 OBJDIR_RELEASE = obj/Release
 DEP_RELEASE = 
 OUT_RELEASE = bin/Release/dramaqueen
 
-OBJ_DEBUG = $(OBJDIR_DEBUG)/src/config/Config.o $(OBJDIR_DEBUG)/src/logger/Logger.o $(OBJDIR_DEBUG)/src/main.o $(OBJDIR_DEBUG)/src/server/BaseServer.o
+OBJ_DEBUG = $(OBJDIR_DEBUG)/src/bot/Bot.o $(OBJDIR_DEBUG)/src/config/Config.o $(OBJDIR_DEBUG)/src/logger/Logger.o $(OBJDIR_DEBUG)/src/main.o $(OBJDIR_DEBUG)/src/server/BaseServer.o
 
-OBJ_RELEASE = $(OBJDIR_RELEASE)/src/config/Config.o $(OBJDIR_RELEASE)/src/logger/Logger.o $(OBJDIR_RELEASE)/src/main.o $(OBJDIR_RELEASE)/src/server/BaseServer.o
+OBJ_RELEASE = $(OBJDIR_RELEASE)/src/bot/Bot.o $(OBJDIR_RELEASE)/src/config/Config.o $(OBJDIR_RELEASE)/src/logger/Logger.o $(OBJDIR_RELEASE)/src/main.o $(OBJDIR_RELEASE)/src/server/BaseServer.o
 
 all: debug release
 
@@ -50,6 +50,7 @@ clean: clean_debug clean_release
 
 before_debug: 
 	test -d bin/Debug || mkdir -p bin/Debug
+	test -d $(OBJDIR_DEBUG)/src/bot || mkdir -p $(OBJDIR_DEBUG)/src/bot
 	test -d $(OBJDIR_DEBUG)/src/config || mkdir -p $(OBJDIR_DEBUG)/src/config
 	test -d $(OBJDIR_DEBUG)/src/logger || mkdir -p $(OBJDIR_DEBUG)/src/logger
 	test -d $(OBJDIR_DEBUG)/src || mkdir -p $(OBJDIR_DEBUG)/src
@@ -61,6 +62,9 @@ debug: before_debug out_debug after_debug
 
 out_debug: $(OBJ_DEBUG) $(DEP_DEBUG)
 	$(LD) $(LDFLAGS_DEBUG) $(LIBDIR_DEBUG) $(OBJ_DEBUG) $(LIB_DEBUG) -o $(OUT_DEBUG)
+
+$(OBJDIR_DEBUG)/src/bot/Bot.o: src/bot/Bot.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/bot/Bot.cpp -o $(OBJDIR_DEBUG)/src/bot/Bot.o
 
 $(OBJDIR_DEBUG)/src/config/Config.o: src/config/Config.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/config/Config.cpp -o $(OBJDIR_DEBUG)/src/config/Config.o
@@ -77,6 +81,7 @@ $(OBJDIR_DEBUG)/src/server/BaseServer.o: src/server/BaseServer.cpp
 clean_debug: 
 	rm -f $(OBJ_DEBUG) $(OUT_DEBUG)
 	rm -rf bin/Debug
+	rm -rf $(OBJDIR_DEBUG)/src/bot
 	rm -rf $(OBJDIR_DEBUG)/src/config
 	rm -rf $(OBJDIR_DEBUG)/src/logger
 	rm -rf $(OBJDIR_DEBUG)/src
@@ -84,6 +89,7 @@ clean_debug:
 
 before_release: 
 	test -d bin/Release || mkdir -p bin/Release
+	test -d $(OBJDIR_RELEASE)/src/bot || mkdir -p $(OBJDIR_RELEASE)/src/bot
 	test -d $(OBJDIR_RELEASE)/src/config || mkdir -p $(OBJDIR_RELEASE)/src/config
 	test -d $(OBJDIR_RELEASE)/src/logger || mkdir -p $(OBJDIR_RELEASE)/src/logger
 	test -d $(OBJDIR_RELEASE)/src || mkdir -p $(OBJDIR_RELEASE)/src
@@ -95,6 +101,9 @@ release: before_release out_release after_release
 
 out_release: $(OBJ_RELEASE) $(DEP_RELEASE)
 	$(LD) $(LDFLAGS_RELEASE) $(LIBDIR_RELEASE) $(OBJ_RELEASE) $(LIB_RELEASE) -o $(OUT_RELEASE)
+
+$(OBJDIR_RELEASE)/src/bot/Bot.o: src/bot/Bot.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/bot/Bot.cpp -o $(OBJDIR_RELEASE)/src/bot/Bot.o
 
 $(OBJDIR_RELEASE)/src/config/Config.o: src/config/Config.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/config/Config.cpp -o $(OBJDIR_RELEASE)/src/config/Config.o
@@ -111,6 +120,7 @@ $(OBJDIR_RELEASE)/src/server/BaseServer.o: src/server/BaseServer.cpp
 clean_release: 
 	rm -f $(OBJ_RELEASE) $(OUT_RELEASE)
 	rm -rf bin/Release
+	rm -rf $(OBJDIR_RELEASE)/src/bot
 	rm -rf $(OBJDIR_RELEASE)/src/config
 	rm -rf $(OBJDIR_RELEASE)/src/logger
 	rm -rf $(OBJDIR_RELEASE)/src

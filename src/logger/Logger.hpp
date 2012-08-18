@@ -23,6 +23,7 @@ private:
     ~Logger();
 
     std::string createTimestamp();
+
 };
 
 }

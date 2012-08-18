@@ -3,7 +3,7 @@
 namespace Dramaqueen
 {
 
-BaseServer::BaseServer()
+BaseServer::BaseServer( Client* _j) : j( _j )
 {
     config = Config::getSingletonPtr();
     logger = Logger::getSingletonPtr();
@@ -30,7 +30,13 @@ void BaseServer::drama()
     dropRights();
     while( true )
     {
-        sleep( 1 );
+        Message::MessageType type = Message::MessageType::Chat;
+        std::string helpStr = "Test!";
+        std::string roa = "roa@localhost";
+        Message msg( type, roa, helpStr );
+        j->send( msg );
+
+        sleep(1);
     }
 }
 

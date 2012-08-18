@@ -34,7 +34,7 @@ void Config::load( const char* fname )
     }
 
     /**********************
-     *    load port  *
+     *    load user       *
      **********************/
     lua_getglobal( L, "user" );
     if( !lua_isstring( L, 1 ) )
@@ -48,6 +48,51 @@ void Config::load( const char* fname )
     }
     lua_pop( L, 1 );
 
+    /**********************
+     *    load group      *
+     **********************/
+    lua_getglobal( L, "group" );
+    if( !lua_isstring( L, 1 ) )
+    {
+        logger->log( "group is not a string" );
+    }
+    else
+    {
+        group = lua_tostring( L, 1 );
+        logger->log( "set group to: ", group );
+    }
+    lua_pop( L, 1 );
+
+    /**********************
+     *    load xmppUser   *
+     **********************/
+    lua_getglobal( L, "xmppUser" );
+    if( !lua_isstring( L, 1 ) )
+    {
+        logger->log( "xmppUser is not a string" );
+    }
+    else
+    {
+        xmppUser = lua_tostring( L, 1 );
+        logger->log( "set xmppUser to: ", xmppUser );
+    }
+    lua_pop( L, 1 );
+
+    /**********************
+     *    load xmppPasswd *
+     **********************/
+    lua_getglobal( L, "xmppPasswd" );
+    if( !lua_isstring( L, 1 ) )
+    {
+        logger->log( "xmppPasswd is not a string" );
+    }
+    else
+    {
+        xmppPasswd = lua_tostring( L, 1 );
+        logger->log( "set xmppPasswd to: ", xmppPasswd );
+    }
+    lua_pop( L, 1 );
+
     lua_close( L );
 }
 
@@ -56,4 +101,18 @@ std::string Config::getUser()
     return user;
 }
 
+std::string Config::getGroup()
+{
+    return group;
+}
+
+std::string Config::getXmppUser()
+{
+    return xmppUser;
+}
+
+std::string Config::getXmppPasswd()
+{
+    return xmppPasswd;
+}
 }
