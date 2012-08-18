@@ -18,9 +18,9 @@ void BaseServer::dropRights()
 {
     pw = getpwnam( config->getUser().c_str() );
     if (getuid() == 0) {
-        if (setgid( 1000 ) != 0)
+        if (setgid( pw->pw_uid ) != 0)
             logger->log( "setgid: Unable to drop group privileges: ", strerror( errno ) );
-        if (setuid( 1000 ) != 0)
+        if (setuid( pw->pw_gid ) != 0)
             logger->log( "setuid: Unable to drop user privileges: ", strerror( errno ) );
     }
 }
