@@ -2,6 +2,7 @@
 #include <thread>
 
 #include "server/BaseServer.hpp"
+#include "client/BaseClient.hpp"
 #include "logger/Logger.hpp"
 #include "bot/Bot.hpp"
 
@@ -17,9 +18,17 @@ void startBot()
     bot.connectToXMPP();
 }
 
+void startServer( Client* _j )
+{
+    BaseServer *server;
+    server = new BaseServer( _j );
+    server->run();
+
+    delete server;
+}
+
 int main( int argc, char **argv )
 {
-    BaseServer *dramaqueen;
     Logger* logger = Logger::getSingletonPtr();
     logger->log( "starting..." );
 
@@ -33,11 +42,10 @@ int main( int argc, char **argv )
     {
         sleep( 1 );
     }
+    std::cout << "after sleep" << std::endl;
+    std::thread t1(startServer,_j);
 
-    dramaqueen = new BaseServer( _j );
-    dramaqueen->drama();
-
-    delete dramaqueen;
+    t1.join();
     t.join();
 
     return 0;

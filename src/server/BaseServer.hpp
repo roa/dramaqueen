@@ -30,12 +30,13 @@ class BaseServer
 {
 private:
     SSL_CTX* ctx;
-    char *cert;
-    char *key;
+    std::string cert;
+    std::string key;
+    std::string host;
+
     BIO *abio;
     BIO *client;
     SSL *ssl;
-    char *host;
     passwd *pw;
 
     Config* config;
@@ -43,11 +44,14 @@ private:
     Client* j;
 
     void dropRights();
+    void initServer();
+    void handleClient();
+    std::string executeScript( std::string script );
 
 public:
     BaseServer( Client *_j );
     ~BaseServer();
-    void drama();
+    void run();
 
 };
 

@@ -35,6 +35,8 @@ private:
     std::string xmppUser;
     std::string xmppPasswd;
 
+    //std::string port;
+
 };
 
 }

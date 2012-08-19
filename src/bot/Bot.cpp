@@ -60,10 +60,15 @@ bool Bot::onTLSConnect( const CertInfo& info )
 
 void Bot::handleMessage( const Message& stanza, MessageSession* session )
 {
-    Message::MessageType type = Message::MessageType::Chat;
-    std::string helpStr = "You are are not allowed to do this!";
-    Message msg( type, stanza.from(), helpStr );
-    j->send( msg );
+    if( !stanza.body().empty())
+    {
+        BaseClient baseclient;
+        std::string answer = baseclient.run();
+        Message::MessageType type = Message::MessageType::Chat;
+        std::string helpStr = "You are are not allowed to do this!";
+        Message msg( type, stanza.from(), answer );
+        j->send( msg );
+    }
 }
 
 void Bot::handleLog( LogLevel level, LogArea area, const std::string& message )

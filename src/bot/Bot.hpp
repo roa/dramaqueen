@@ -13,6 +13,7 @@
 #include <gloox/message.h>
 
 #include "../config/Config.hpp"
+#include "../client/BaseClient.hpp"
 
 using namespace gloox;
 
