@@ -18,10 +18,11 @@ BaseServer::~BaseServer()
 void BaseServer::dropRights()
 {
     pw = getpwnam( config->getUser().c_str() );
-    if (getuid() == 0) {
-        if (setgid( pw->pw_uid ) != 0)
+    if( getuid() == 0)
+    {
+        if( setgid( pw->pw_uid ) != 0 )
             logger->log( "setgid: Unable to drop group privileges: ", strerror( errno ) );
-        if (setuid( pw->pw_gid ) != 0)
+        if( setuid( pw->pw_gid ) != 0 )
             logger->log( "setuid: Unable to drop user privileges: ", strerror( errno ) );
     }
 }
@@ -35,12 +36,11 @@ void BaseServer::initServer()
     cert = "/home/roa/programming/examples/ssl_conn/ssl_example/servercert.pem";
     key  = "/home/roa/programming/examples/ssl_conn/ssl_example/private.key";
     host = "localhost:9898";
-    char *temp_host = (char *) host.c_str();
 
     ctx = SSL_CTX_new(SSLv3_server_method());
     SSL_CTX_use_certificate_file(ctx, cert.c_str(), SSL_FILETYPE_PEM);
     SSL_CTX_use_PrivateKey_file(ctx, key.c_str(), SSL_FILETYPE_PEM);
-    abio = BIO_new_accept(temp_host);
+    abio = BIO_new_accept( ( char * ) host.c_str() );
     if( abio == NULL )
     {
         abort();
@@ -56,7 +56,6 @@ void BaseServer::handleClient()
 
     memset( rbuf, '\0', sizeof(rbuf) );
 
-    rbuf[r] = '\0';
     tempstr.append( rbuf );
 
     do
@@ -77,12 +76,10 @@ void BaseServer::handleClient()
         }
     } while( SSL_pending( ssl ) );
 
-    std::cout << "handleClient" << std::endl;
-
     if( !tempstr.empty() )
     {
         std::string buffer = executeScript( "test.lua" );
-        SSL_write(ssl, buffer.c_str(), buffer.size());
+        SSL_write( ssl, buffer.c_str(), buffer.size() );
     }
 
     close( cfd );

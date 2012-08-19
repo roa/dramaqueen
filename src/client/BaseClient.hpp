@@ -24,9 +24,9 @@ private:
     std::string cert;
     std::string host;
 
-    BIO *bio;
+    BIO     *bio;
     SSL_CTX *ctx;
-    SSL *ssl;
+    SSL     *ssl;
 
     void initBaseClient();
 };

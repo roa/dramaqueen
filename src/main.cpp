@@ -32,7 +32,7 @@ int main( int argc, char **argv )
     Logger* logger = Logger::getSingletonPtr();
     logger->log( "starting..." );
 
-    std::thread t(startBot);
+    std::thread t( startBot );
 
     /**********************************
     *  wait for the Client Pointer to *
@@ -42,8 +42,8 @@ int main( int argc, char **argv )
     {
         sleep( 1 );
     }
-    std::cout << "after sleep" << std::endl;
-    std::thread t1(startServer,_j);
+
+    std::thread t1( startServer,_j );
 
     t1.join();
     t.join();
