@@ -16,7 +16,14 @@ Bot::~Bot()
 
 void Bot::connectToXMPP()
 {
-    j->connect( true );
+    if( j->connect( false ) )
+    {
+        ConnectionError ce = ConnNoError;
+        while( ce == ConnNoError )
+        {
+          ce = j->recv();
+        }
+    }
 }
 
 Client* Bot::getJ()

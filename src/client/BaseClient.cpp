@@ -26,7 +26,7 @@ std::string BaseClient::run( std::string host, std::string command )
         return "Hup";
     }
 
-    //BIO_set_nbio( bio, 1 );
+    BIO_set_nbio( bio, 1 );
 
     BIO_get_ssl( bio, ssl );
 
