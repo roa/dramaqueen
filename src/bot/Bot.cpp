@@ -16,14 +16,7 @@ Bot::~Bot()
 
 void Bot::connectToXMPP()
 {
-    if( j->connect( false ) )
-    {
-        ConnectionError ce = ConnNoError;
-        while( ce == ConnNoError )
-        {
-          ce = j->recv();
-        }
-    }
+    j->connect( true );
 }
 
 Client* Bot::getJ()
@@ -61,10 +54,11 @@ void Bot::handleMessage( const Message& stanza, MessageSession* session )
 {
     if( !stanza.body().empty() )
     {
-        BaseClient baseclient;
-        std::string answer = baseclient.run();
         Message::MessageType type = Message::MessageType::Chat;
-        Message msg( type, stanza.from(), answer );
+        std::cout << "string" << stanza.body() << std::endl;
+        std::cout << "cstr" << stanza.body().c_str() << std::endl;
+
+        Message msg( type, stanza.from(), contactHosts( stanza.body() ) );
         j->send( msg );
     }
 }
@@ -72,6 +66,24 @@ void Bot::handleMessage( const Message& stanza, MessageSession* session )
 void Bot::handleLog( LogLevel level, LogArea area, const std::string& message )
 {
     //printf("log: level: %d, area: %d, %s\n", level, area, message.c_str() );
+}
+
+std::string Bot::contactHosts( std::string command )
+{
+    std::string results;
+    std::vector<std::string> * foreignHosts = Config::getSingletonPtr()->getForeignHosts();
+    std::cout << foreignHosts->size() << std::endl;;
+    for( std::vector<std::string>::iterator it = foreignHosts->begin(); it != foreignHosts->end(); ++it )
+    {
+        BaseClient baseclient;
+        std::string currentHost = *it;
+        results.append( baseclient.run( currentHost, command ) );
+    }
+    if( results.empty() )
+    {
+        results.append( "no hits" );
+    }
+    return results;
 }
 
 }

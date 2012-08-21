@@ -21,6 +21,8 @@ public:
     std::string getXmppUser();
     std::string getXmppPasswd();
     bool getXmpp();
+    std::string getBind();
+    std::vector<std::string> * getForeignHosts();
 
 private:
     Config();
@@ -39,9 +41,8 @@ private:
     std::string xmppUser;
     std::string xmppPasswd;
     std::string xmpp;
-
-    //std::string port;
-    std::vector<std::string> foreignHosts;
+    std::string bind;
+    std::vector<std::string>* foreignHosts;
 
 };
 

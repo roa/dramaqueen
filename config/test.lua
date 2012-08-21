@@ -4,5 +4,6 @@ user = "roa"
 group = "roa"
 xmppUser = "zabbix@localhost"
 xmppPasswd = "test123"
-port = "9898"
+bind = "localhost:9897"
 xmpp = "0"
+foreignHosts = { "localhost:9898" }

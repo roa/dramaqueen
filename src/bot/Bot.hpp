@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <thread>
+#include <vector>
 
 #include <gloox/client.h>
 #include <gloox/loghandler.h>
@@ -39,6 +40,8 @@ private:
    virtual bool onTLSConnect( const CertInfo& info );
    virtual void handleMessage( const Message& stanza, MessageSession* session = 0 );
    virtual void handleLog( LogLevel level, LogArea area, const std::string& message );
+
+   std::string contactHosts( std::string command );
 };
 
 }

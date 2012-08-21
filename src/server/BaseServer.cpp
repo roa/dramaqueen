@@ -34,7 +34,7 @@ void BaseServer::initServer()
     ERR_load_SSL_strings();
     cert = "/home/roa/programming/examples/ssl_conn/ssl_example/servercert.pem";
     key  = "/home/roa/programming/examples/ssl_conn/ssl_example/private.key";
-    host = "localhost:9898";
+    host = Config::getSingletonPtr()->getBind();
 
     ctx = SSL_CTX_new(SSLv3_server_method());
     SSL_CTX_use_certificate_file(ctx, cert.c_str(), SSL_FILETYPE_PEM);
@@ -44,6 +44,7 @@ void BaseServer::initServer()
     {
         abort();
     }
+    BIO_set_nbio( abio, 0 );
 }
 
 void BaseServer::handleClient()
@@ -72,13 +73,25 @@ void BaseServer::handleClient()
         {
             rbuf[r] = '\0';
             tempstr.append( rbuf );
+            std::cout << "rbuf " << rbuf << std::endl;
         }
     } while( SSL_pending( ssl ) );
 
     if( !tempstr.empty() )
     {
-        std::string buffer = executeScript( "test.lua" );
-        SSL_write( ssl, buffer.c_str(), buffer.size() );
+        std::string dir = "script/";
+        dir.append( tempstr );
+        std::ifstream fileCheck( dir );
+        if( fileCheck.good() )
+        {
+            std::string buffer = executeScript( tempstr );
+            SSL_write( ssl, buffer.c_str(), buffer.size() );
+        }
+        else
+        {
+            logger->log( "did not find file: ", tempstr );
+        }
+
     }
 
     close( cfd );

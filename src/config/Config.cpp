@@ -128,6 +128,21 @@ void Config::load( const char* fname )
     }
     lua_pop( L, 1 );
 
+    /**********************
+     *  load bind address *
+     **********************/
+    lua_getglobal( L, "bind" );
+    if( !lua_isstring( L, 1 ) )
+    {
+        logger->log( "bind is not a string" );
+    }
+    else
+    {
+        bind = lua_tostring( L, 1 );
+        logger->log( "set bind to: ", bind );
+    }
+    lua_pop( L, 1 );
+
      /**********************
      *  load foreign Hosts *
      **********************/
@@ -138,15 +153,16 @@ void Config::load( const char* fname )
     }
     else
     {
+        foreignHosts = new std::vector<std::string>;
         lua_pushnil( L );
 
         while( lua_next( L, 1 ) != 0 )
         {
-            foreignHosts.push_back( lua_tostring( L, -1 ) );
+            foreignHosts->push_back( lua_tostring( L, -1 ) );
             lua_pop( L, 1 );
         }
 
-        for( std::vector<std::string>::iterator it = foreignHosts.begin(); it != foreignHosts.end(); ++it )
+        for( std::vector<std::string>::iterator it = foreignHosts->begin(); it != foreignHosts->end(); ++it )
         {
             std::string foreignHost = *it;
             logger->log( "added host: ", foreignHost );
@@ -180,6 +196,16 @@ std::string Config::getXmppPasswd()
 bool Config::getXmpp()
 {
     return xmpp.at( 0 ) == '1';
+}
+
+std::string Config::getBind()
+{
+    return bind;
+}
+
+std::vector<std::string> * Config::getForeignHosts()
+{
+    return foreignHosts;
 }
 
 }
