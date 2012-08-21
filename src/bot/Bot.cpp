@@ -12,6 +12,7 @@ Bot::Bot()
 
 Bot::~Bot()
 {
+    delete j;
 }
 
 void Bot::connectToXMPP()
