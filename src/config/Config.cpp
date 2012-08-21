@@ -7,9 +7,24 @@ Config* Config::singletonPtr = 0;
 
 Config * Config::getSingletonPtr()
 {
+/*
     if ( !singletonPtr )
     {
-        singletonPtr = new Config ();
+        singletonPtr = new Config();
+    }
+*/
+    while( !singletonPtr )
+    {
+        sleep( 1 );
+    }
+    return singletonPtr;
+}
+
+Config * Config::getSingletonPtr( std::string config )
+{
+    if ( !singletonPtr )
+    {
+        singletonPtr = new Config( config );
     }
     return singletonPtr;
 }
@@ -17,7 +32,12 @@ Config * Config::getSingletonPtr()
 Config::Config()
 {
     logger = Logger::getSingletonPtr();
-    load( "/home/roa/programming/dramaqueen/config/init.lua" );
+}
+
+Config::Config( std::string config )
+{
+    logger = Logger::getSingletonPtr();
+    load( config.c_str() );
 }
 
 Config::~Config()
@@ -93,6 +113,47 @@ void Config::load( const char* fname )
     }
     lua_pop( L, 1 );
 
+    /**********************
+     *  load xmpp boolian *
+     **********************/
+    lua_getglobal( L, "xmpp" );
+    if( !lua_isstring( L, 1 ) )
+    {
+        logger->log( "xmpp is not a string" );
+    }
+    else
+    {
+        xmpp = lua_tostring( L, 1 );
+        logger->log( "set xmpp to: ", xmpp );
+    }
+    lua_pop( L, 1 );
+
+     /**********************
+     *  load foreign Hosts *
+     **********************/
+    lua_getglobal( L, "foreignHosts" );
+    if( !lua_istable( L, 1 ) )
+    {
+        logger->log( "foreignHosts is not a table" );
+    }
+    else
+    {
+        lua_pushnil( L );
+
+        while( lua_next( L, 1 ) != 0 )
+        {
+            foreignHosts.push_back( lua_tostring( L, -1 ) );
+            lua_pop( L, 1 );
+        }
+
+        for( std::vector<std::string>::iterator it = foreignHosts.begin(); it != foreignHosts.end(); ++it )
+        {
+            std::string foreignHost = *it;
+            logger->log( "added host: ", foreignHost );
+        }
+    }
+
+
     lua_close( L );
 }
 
@@ -115,4 +176,10 @@ std::string Config::getXmppPasswd()
 {
     return xmppPasswd;
 }
+
+bool Config::getXmpp()
+{
+    return xmpp.at( 0 ) == '1';
+}
+
 }

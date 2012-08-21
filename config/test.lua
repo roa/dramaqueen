@@ -5,5 +5,4 @@ group = "roa"
 xmppUser = "zabbix@localhost"
 xmppPasswd = "test123"
 port = "9898"
-xmpp = "1"
-foreignHosts = { "1", "2", "3" }
+xmpp = "0"

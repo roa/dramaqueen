@@ -3,9 +3,8 @@
 namespace Dramaqueen
 {
 
-BaseServer::BaseServer( Client* _j) : j( _j )
+BaseServer::BaseServer()
 {
-    config = Config::getSingletonPtr();
     logger = Logger::getSingletonPtr();
     initServer();
 }
@@ -17,7 +16,7 @@ BaseServer::~BaseServer()
 
 void BaseServer::dropRights()
 {
-    pw = getpwnam( config->getUser().c_str() );
+    pw = getpwnam( Config::getSingletonPtr()->getUser().c_str() );
     if( getuid() == 0)
     {
         if( setgid( pw->pw_uid ) != 0 )
@@ -30,7 +29,7 @@ void BaseServer::dropRights()
 void BaseServer::initServer()
 {
     SSL_library_init();
-    SSL_load_error_strings();
+    //SSL_load_error_strings();
     ERR_load_BIO_strings();
     ERR_load_SSL_strings();
     cert = "/home/roa/programming/examples/ssl_conn/ssl_example/servercert.pem";

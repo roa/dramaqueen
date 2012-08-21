@@ -33,8 +33,6 @@ public:
 private:
    Client* j;
 
-   Config* config;
-
    void initXMPP();
    virtual void onConnect();
    virtual void onDisconnect( ConnectionError e );

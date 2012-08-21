@@ -7,7 +7,6 @@ namespace Dramaqueen
 
 Bot::Bot()
 {
-    config = Config::getSingletonPtr();
     initXMPP();
 }
 
@@ -34,9 +33,9 @@ Client* Bot::getJ()
 
 void Bot::initXMPP()
 {
-    JID jid( config->getXmppUser() );
+    JID jid( Config::getSingletonPtr()->getXmppUser() );
 
-    j = new Client( jid, config->getXmppPasswd() );
+    j = new Client( jid, Config::getSingletonPtr()->getXmppPasswd() );
 
     j->registerConnectionListener( this );
     j->registerMessageHandler( this );

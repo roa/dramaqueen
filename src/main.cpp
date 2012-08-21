@@ -5,48 +5,69 @@
 #include "client/BaseClient.hpp"
 #include "logger/Logger.hpp"
 #include "bot/Bot.hpp"
-
+#include "config/Config.hpp"
 
 using namespace Dramaqueen;
-
-Client* _j = NULL;
 
 void startBot()
 {
     Bot bot;
-    _j = bot.getJ();
     bot.connectToXMPP();
 }
 
-void startServer( Client* _j )
+void startServer()
 {
     BaseServer *server;
-    server = new BaseServer( _j );
+    server = new BaseServer();
     server->run();
-
     delete server;
 }
 
 int main( int argc, char **argv )
 {
-    Logger* logger = Logger::getSingletonPtr();
-    logger->log( "starting..." );
+    Logger::getSingletonPtr()->log( "starting..." );
 
-    std::thread t( startBot );
+    int opt = 0;
+    std::string confFile = "/home/roa/programming/dramaqueen/config/init.lua";
 
-    /**********************************
-    *  wait for the Client Pointer to *
-    *  get initialized                *
-    ***********************************/
-    while( _j == NULL )
+    if( argc < 2 )
     {
-        sleep( 1 );
+        std::cout << "need config, dude" << std::endl;
+        exit( 0 );
     }
 
-    std::thread t1( startServer,_j );
+    while( ( opt = getopt( argc, argv, "c:") ) != -1)
+    {
+        switch( opt )
+        {
+            case 'c':
+            {
+                confFile = optarg;
+                Logger::getSingletonPtr()->log( "using config: ", confFile );
+                break;
+            }
+            default:
+            {
+                Logger::getSingletonPtr()->log( "no config given: use default value" );
+            }
+        }
+    }
 
-    t1.join();
-    t.join();
+    Config* config = Config::getSingletonPtr( confFile );
+
+    if( config->getXmpp() )
+    {
+        std::thread botThread( startBot );
+        std::thread srvThread( startServer );
+
+        srvThread.join();
+        botThread.join();
+    }
+    else
+    {
+        std::thread srvThread( startServer );
+        srvThread.join();
+    }
 
     return 0;
 }

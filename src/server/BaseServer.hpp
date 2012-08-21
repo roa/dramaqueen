@@ -12,16 +12,8 @@
 #include <sstream>
 #include <pwd.h>
 
-#include <gloox/client.h>
-#include <gloox/loghandler.h>
-#include <gloox/messagehandler.h>
-#include <gloox/connectionlistener.h>
-#include <gloox/message.h>
-
 #include "../config/Config.hpp"
 #include "../logger/Logger.hpp"
-
-using namespace gloox;
 
 namespace Dramaqueen
 {
@@ -39,9 +31,7 @@ private:
     SSL *ssl;
     passwd *pw;
 
-    Config* config;
     Logger* logger;
-    Client* j;
 
     void dropRights();
     void initServer();
@@ -49,7 +39,7 @@ private:
     std::string executeScript( std::string script );
 
 public:
-    BaseServer( Client *_j );
+    BaseServer();
     ~BaseServer();
     void run();
 
