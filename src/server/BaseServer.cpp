@@ -29,11 +29,10 @@ void BaseServer::dropRights()
 void BaseServer::initServer()
 {
     SSL_library_init();
-    //SSL_load_error_strings();
     ERR_load_BIO_strings();
     ERR_load_SSL_strings();
-    cert = "/home/roa/programming/examples/ssl_conn/ssl_example/servercert.pem";
-    key  = "/home/roa/programming/examples/ssl_conn/ssl_example/private.key";
+    cert = Config::getSingletonPtr()->getSSLCert();
+    key  = Config::getSingletonPtr()->getSSLKey();
     host = Config::getSingletonPtr()->getBind();
 
     ctx = SSL_CTX_new(SSLv3_server_method());
