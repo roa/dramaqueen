@@ -8,4 +8,4 @@ xmppUser = "zabbix@localhost"
 xmppPasswd = "test123"
 bind = "localhost:9898"
 xmpp = "1"
-foreignHosts = { "localhost:9897", "localhost:9898",} -- "localhost:9898" }
+foreignHosts = { "localhost:9897", "localhost:9898", "playground.vm.over9000.org:9898" }
