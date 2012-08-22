@@ -63,9 +63,6 @@ void Bot::handleMessage( const Message& stanza, MessageSession* session )
     if( !stanza.body().empty() )
     {
         Message::MessageType type = Message::MessageType::Chat;
-        std::cout << "string" << stanza.body() << std::endl;
-        std::cout << "cstr" << stanza.body().c_str() << std::endl;
-
         Message msg( type, stanza.from(), contactHosts( stanza.body() ) );
         j->send( msg );
     }
@@ -80,12 +77,11 @@ std::string Bot::contactHosts( std::string command )
 {
     std::string results;
     std::vector<std::string> * foreignHosts = Config::getSingletonPtr()->getForeignHosts();
-    std::cout << foreignHosts->size() << std::endl;;
     for( std::vector<std::string>::iterator it = foreignHosts->begin(); it != foreignHosts->end(); ++it )
     {
-        BaseClient baseclient;
         std::string currentHost = *it;
-        results.append( baseclient.run( currentHost, command ) );
+        BaseClient baseclient( currentHost, command );
+        results.append( baseclient.run() );
     }
     if( results.empty() )
     {

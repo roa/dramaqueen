@@ -73,7 +73,6 @@ void BaseServer::handleClient()
         {
             rbuf[r] = '\0';
             tempstr.append( rbuf );
-            std::cout << "rbuf " << rbuf << std::endl;
         }
     } while( SSL_pending( ssl ) );
 

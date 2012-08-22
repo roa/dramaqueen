@@ -143,6 +143,36 @@ void Config::load( const char* fname )
     }
     lua_pop( L, 1 );
 
+    /**********************
+     *  load ssl cert     *
+     **********************/
+    lua_getglobal( L, "sslCert" );
+    if( !lua_isstring( L, 1 ) )
+    {
+        logger->log( "sslCert is not a string" );
+    }
+    else
+    {
+        sslCert = lua_tostring( L, 1 );
+        logger->log( "set sslCert to: ", sslCert );
+    }
+    lua_pop( L, 1 );
+
+    /**********************
+     *  load ssl key      *
+     **********************/
+    lua_getglobal( L, "sslKey" );
+    if( !lua_isstring( L, 1 ) )
+    {
+        logger->log( "sslKey is not a string" );
+    }
+    else
+    {
+        sslKey = lua_tostring( L, 1 );
+        logger->log( "set sslKey to: ", sslKey );
+    }
+    lua_pop( L, 1 );
+
      /**********************
      *  load foreign Hosts *
      **********************/
@@ -201,6 +231,16 @@ bool Config::getXmpp()
 std::string Config::getBind()
 {
     return bind;
+}
+
+std::string Config::getSSLCert()
+{
+    return sslCert;
+}
+
+std::string Config::getSSLKey()
+{
+    return sslKey;
 }
 
 std::vector<std::string> * Config::getForeignHosts()

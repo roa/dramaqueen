@@ -3,8 +3,10 @@
 namespace Dramaqueen
 {
 
-BaseClient::BaseClient()
+BaseClient::BaseClient( std::string _host, std::string _command ) :
+    host( _host ), command( _command )
 {
+    logger = Logger::getSingletonPtr();
     initBaseClient();
 }
 
@@ -13,40 +15,116 @@ BaseClient::~BaseClient()
 
 }
 
-std::string BaseClient::run( std::string host, std::string command )
+std::string BaseClient::run()
 {
-    char rbuffer[4096];
+    std::string response;
+    response.append( connectToServer() );
+    if( !response.empty() )
+    {
+        return response;
+    }
+    response.append( sendToServer() );
+    if( !response.empty() )
+    {
+        return response;
+    }
 
-    memset( rbuffer, '\0', sizeof( rbuffer ) );
+    response.append( intro() );
+    response.append( recvFromServer() );
 
+    destroyBio();
+
+    return response;
+}
+
+void BaseClient::initBaseClient()
+{
+    ssl  = NULL;
+    SSL_load_error_strings();
+    SSL_library_init();
+    ERR_load_BIO_strings();
+    OpenSSL_add_all_algorithms();
+    initCTX();
+    initBio();
+}
+
+void BaseClient::initCTX()
+{
+    ctx  = NULL;
+    cert = Config::getSingletonPtr()->getSSLCert();
+    key  = Config::getSingletonPtr()->getSSLKey();
+    ctx = SSL_CTX_new(SSLv23_client_method());
+    SSL_CTX_use_certificate_file( ctx, cert.c_str(), SSL_FILETYPE_PEM );
+    SSL_CTX_use_PrivateKey_file( ctx, key.c_str(), SSL_FILETYPE_PEM );
+}
+
+void BaseClient::initBio()
+{
     bio = BIO_new_ssl_connect( ctx );
+
     if( bio == NULL )
     {
-        std::cout << "bio kaputt" << std::endl;
-        return "Hup";
+        logger->log( "could not initialize bio" );
     }
-
-    BIO_set_nbio( bio, 1 );
 
     BIO_get_ssl( bio, ssl );
-
     BIO_set_conn_hostname( bio, ( char * )host.c_str() );
+}
 
+void BaseClient::destroyBio()
+{
+    if ( !BIO_set_close( bio, BIO_CLOSE ) )
+    {
+        logger->log( "setting close flag n BaseClient failed" );
+    }
+    BIO_free( bio );
+}
 
+std::string BaseClient::connectToServer()
+{
+    std::stringstream answer;
     if( BIO_do_connect( bio ) <= 0 )
     {
-        std::cout << "connect failed" << std::endl;
+        logger->log( "connect failed" );
+        /**
+        TODO: remove this crap
+        **/
+        FILE * mystream = fopen( "/tmp/rand", "w+");
+        ERR_print_errors_fp( mystream );
+
         if ( !BIO_set_close( bio, BIO_CLOSE ) )
         {
-            std::cout << "basd" << std::endl;
+            logger->log( "setting close flag n BaseClient failed" );
         }
         BIO_free( bio );
-        return "moep";
+        answer  <<  std::endl << intro()
+                << "Could not connect to server: "
+                <<  host << std::endl;
+    }
+    return answer.str();
+}
+
+std::string BaseClient::sendToServer()
+{
+    std::stringstream answer;
+
+    if( BIO_write( bio, command.c_str(), command.size() ) <= -1 )
+    {
+        logger->log( "send to server failed: ", host );
+        answer  << std::endl << intro()
+                << "send to server "
+                << host
+                << " failed";
     }
 
-    int r = BIO_write( bio, command.c_str(), command.size() );
+    return answer.str();
+}
 
-    r = -1;
+std::string BaseClient::recvFromServer()
+{
+    char rbuffer[4096];
+    memset( rbuffer, '\0', sizeof( rbuffer ) );
+    int r = -1;
     while( r < 0 )
     {
         r = BIO_read( bio, rbuffer, sizeof( rbuffer ) );
@@ -62,28 +140,15 @@ std::string BaseClient::run( std::string host, std::string command )
             }
         }
     }
-    if ( !BIO_set_close( bio, BIO_CLOSE ) )
-    {
-        std::cout << "basd" << std::endl;
-    }
-    BIO_free( bio );
     return rbuffer;
 }
 
-void BaseClient::initBaseClient()
+std::string BaseClient::intro()
 {
-    cert = "/home/roa/programming/examples/ssl_conn/ssl_example/servercert.pem";
-    key  = "/home/roa/programming/examples/ssl_conn/ssl_example/private.key";
-    ctx  = NULL;
-    ssl  = NULL;
-    SSL_load_error_strings();
-    SSL_library_init();
-    ERR_load_BIO_strings();
-    OpenSSL_add_all_algorithms();
-    ctx = SSL_CTX_new(SSLv23_client_method());
-    SSL_CTX_use_certificate_file( ctx, cert.c_str(), SSL_FILETYPE_PEM );
-    SSL_CTX_use_PrivateKey_file( ctx, key.c_str(), SSL_FILETYPE_PEM );
+    std::stringstream intro;
+    intro << std::endl << "Report from "
+          << host      << ":" << std::endl;
+    return intro.str();
 }
-
 
 }

@@ -22,6 +22,8 @@ public:
     std::string getXmppPasswd();
     bool getXmpp();
     std::string getBind();
+    std::string getSSLCert();
+    std::string getSSLKey();
     std::vector<std::string> * getForeignHosts();
 
 private:
@@ -42,6 +44,8 @@ private:
     std::string xmppPasswd;
     std::string xmpp;
     std::string bind;
+    std::string sslCert;
+    std::string sslKey;
     std::vector<std::string>* foreignHosts;
 
 };

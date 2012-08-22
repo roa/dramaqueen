@@ -32,7 +32,8 @@ int main( int argc, char **argv )
 
     if( argc < 2 )
     {
-        std::cout << "need config, dude" << std::endl;
+        Logger::getSingletonPtr()->log( "no config specified ");
+        Logger::getSingletonPtr()->log( "exiting..." );
         exit( 0 );
     }
 
