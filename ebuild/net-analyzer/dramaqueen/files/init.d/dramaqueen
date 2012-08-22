@@ -10,7 +10,8 @@ depend() {
 start() {
     ebegin "Starting Dramaqueen"
     start-stop-daemon --background --start --exec /usr/local/bin/dramaqueen \
-    --make-pidfile --pidfile /var/run/dramaqueen -- -c /etc/dramaqueen/init.lua
+    --make-pidfile --pidfile /var/run/dramaqueen \
+    -- -c /etc/dramaqueen/init.lua -l /var/log/dramaqueen/drama.log
     eend $?
 }
 

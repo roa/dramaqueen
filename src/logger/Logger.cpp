@@ -4,18 +4,33 @@ namespace Dramaqueen
 {
 
 Logger * Logger::singletonPtr = 0;
-
+std::string Logger::logDest = "/var/log/dramaqueen/drama.log";
 Logger * Logger::getSingletonPtr()
 {
     if ( !singletonPtr )
     {
-        singletonPtr = new Logger ();
+        singletonPtr = new Logger();
+    }
+    return singletonPtr;
+}
+
+Logger * Logger::getSingletonPtr( std::string _logDest )
+{
+    if ( !singletonPtr )
+    {
+        singletonPtr = new Logger( _logDest );
     }
     return singletonPtr;
 }
 
 Logger::Logger()
 {
+    this->log( "created new logger instance" );
+}
+
+Logger::Logger( std::string _logDest )
+{
+    logDest = _logDest;
     this->log( "created new logger instance" );
 }
 
@@ -27,7 +42,7 @@ Logger::~Logger()
 void Logger::log( std::string logMsg )
 {
     std::ofstream logFile;
-    logFile.open ("log/dev.log", std::ios::app );
+    logFile.open ( logDest, std::ios::app );
 
     logFile << createTimestamp()
             << "    "
@@ -40,7 +55,7 @@ void Logger::log( std::string logMsg )
 void Logger::log( std::string logMsg, std::string extLogMsg )
 {
     std::ofstream logFile;
-    logFile.open ("log/dev.log", std::ios::app );
+    logFile.open ( logDest, std::ios::app );
 
     logFile << createTimestamp()
             << "    "

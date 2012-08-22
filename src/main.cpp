@@ -25,35 +25,41 @@ void startServer()
 
 int main( int argc, char **argv )
 {
-    Logger::getSingletonPtr()->log( "starting..." );
-
     int opt = 0;
+    std::string logDest  = "log/dev.log";
     std::string confFile = "/home/roa/programming/dramaqueen/config/init.lua";
 
-    if( argc < 2 )
+    if( argc < 3 )
     {
-        Logger::getSingletonPtr()->log( "no config specified ");
-        Logger::getSingletonPtr()->log( "exiting..." );
+        std::cerr << "need log and config" << std::endl;
         exit( 0 );
     }
 
-    while( ( opt = getopt( argc, argv, "c:") ) != -1)
+    while( ( opt = getopt( argc, argv, "c:l:") ) != -1)
     {
         switch( opt )
         {
             case 'c':
             {
                 confFile = optarg;
-                Logger::getSingletonPtr()->log( "using config: ", confFile );
+                break;
+            }
+            case 'l':
+            {
+                logDest = optarg;
                 break;
             }
             default:
             {
-                Logger::getSingletonPtr()->log( "no config given: use default value" );
+                /**
+                TODO:
+                do something useful
+                **/
             }
         }
     }
-
+    Logger* logger = Logger::getSingletonPtr( logDest );
+    logger->log( "initialized dramaqueen...");
     Config* config = Config::getSingletonPtr( confFile );
 
     if( config->getXmpp() )

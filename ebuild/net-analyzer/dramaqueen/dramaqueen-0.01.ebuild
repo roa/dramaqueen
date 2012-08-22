@@ -35,6 +35,9 @@ src_install() {
 	dodir "/etc/dramaqueen"
 	cp "${PORTAGE_BUILDDIR}/work/dramaqueen-0.01/config/init.lua" \
 	"${D}/etc/dramaqueen" || die
-
+	
+	dodir "/var/log/dramaqueen/"
+	chmod 777 "${D}/var/log/dramaqueen"
+	touch "${D}/var/log/dramaqueen/.keep_drama"
 	doinitd "${FILESDIR}"/init.d/dramaqueen
 }
