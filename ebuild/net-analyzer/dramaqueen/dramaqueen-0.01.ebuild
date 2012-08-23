@@ -23,6 +23,13 @@ RDEPEND="${DEPEND}"
 
 EGIT_REPO_URI="git://github.com/roa/dramaqueen.git"
 
+pkg_setup() {
+	ebegin "Creating dramaqueen group and user"
+	enewgroup "dramaqueen"
+	enewuser  "dramaqueen" -1 -1 -1 "dramaqueen"
+	eend $?
+}
+
 src_compile() {
 	make release || die "Something went terribly wrong..."
 }
@@ -37,7 +44,7 @@ src_install() {
 	"${D}/etc/dramaqueen" || die
 	
 	dodir "/var/log/dramaqueen/"
-	chmod 777 "${D}/var/log/dramaqueen"
+	chown dramaqueen:dramaqueen  "${D}/var/log/dramaqueen"
 	touch "${D}/var/log/dramaqueen/.keep_drama"
 	doinitd "${FILESDIR}"/init.d/dramaqueen
 }
