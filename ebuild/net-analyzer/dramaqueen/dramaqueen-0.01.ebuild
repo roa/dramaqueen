@@ -51,12 +51,12 @@ src_install() {
 	keepdir/var/lib/dramaqueen/daemon/
 
 	fowners -R dramaqueen.dramaqueen "/var/lib/dramaqueen"
-	fperms 0700 "/var/lib/dramaqueen"
+	fperms -R 0700 "/var/lib/dramaqueen"
 	
 	dodir /var/log/dramaqueen
-	fowners dramaqueen:dramaqueen  "/var/log/dramaqueen"
+	fowners -R dramaqueen:dramaqueen "/var/log/dramaqueen"
 	keepdir /var/log/dramaqueen
-	fperms 0700 "/var/log/dramaqueen"
+	fperms -R 0700 "/var/log/dramaqueen"
 
 	doinitd "${FILESDIR}"/init.d/dramaqueen
 }
