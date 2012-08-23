@@ -48,9 +48,8 @@ void initDaemonForge( std::string daemonDir, Client* _j )
             std::thread daemonThread{ DaemonForge( currentFile, _j ) };
             daemonThread.detach();
         }
-
     }
-
+    closedir( dir );
 }
 
 int main( int argc, char **argv )
