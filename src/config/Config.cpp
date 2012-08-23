@@ -188,6 +188,21 @@ void Config::load( const char* fname )
     }
     lua_pop( L, 1 );
 
+    /**********************
+     *  load scriptdir    *
+     **********************/
+    lua_getglobal( L, "scriptDir" );
+    if( !lua_isstring( L, 1 ) )
+    {
+        logger->log( "scriptDir is not a string" );
+    }
+    else
+    {
+        scriptDir = lua_tostring( L, 1 );
+        logger->log( "set scriptDir to: ", scriptDir );
+    }
+    lua_pop( L, 1 );
+
      /**********************
      *  load foreign Hosts *
      **********************/
@@ -261,6 +276,11 @@ std::string Config::getSSLKey()
 std::string Config::getDaemonDir()
 {
     return daemonDir;
+}
+
+std::string Config::getScriptDir()
+{
+    return scriptDir;
 }
 
 std::vector<std::string> * Config::getForeignHosts()

@@ -4,7 +4,7 @@
 
 EAPI=4
 
-inherit git-2
+inherit git-2 eutils
 
 DESCRIPTION=""
 HOMEPAGE=""
@@ -25,8 +25,8 @@ EGIT_REPO_URI="git://github.com/roa/dramaqueen.git"
 
 pkg_setup() {
 	ebegin "Creating dramaqueen group and user"
-	enewgroup "dramaqueen"
-	enewuser  "dramaqueen" -1 -1 -1 "dramaqueen"
+	enewgroup dramaqueen
+	enewuser  dramaqueen -1 -1 -1 "dramaqueen"
 	eend $?
 }
 
@@ -42,9 +42,21 @@ src_install() {
 	dodir "/etc/dramaqueen"
 	cp "${PORTAGE_BUILDDIR}/work/dramaqueen-0.01/config/init.lua" \
 	"${D}/etc/dramaqueen" || die
+
+	dodir	/var/lib/dramaqueen \
+			/var/lib/dramaqueen/script \
+			/var/lib/dramaqueen/daemon/ \
+
+	keepdir /var/lib/dramaqueen/script/
+	keepdir/var/lib/dramaqueen/daemon/
+
+	fowners -R dramaqueen.dramaqueen "/var/lib/dramaqueen"
+	fperms 0700 "/var/lib/dramaqueen"
 	
-	dodir "/var/log/dramaqueen/"
-	chown dramaqueen:dramaqueen  "${D}/var/log/dramaqueen"
-	touch "${D}/var/log/dramaqueen/.keep_drama"
+	dodir /var/log/dramaqueen
+	fowners dramaqueen:dramaqueen  "/var/log/dramaqueen"
+	keepdir /var/log/dramaqueen
+	fperms 0700 "/var/log/dramaqueen"
+
 	doinitd "${FILESDIR}"/init.d/dramaqueen
 }

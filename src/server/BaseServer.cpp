@@ -130,7 +130,7 @@ void BaseServer::run()
 
 std::string BaseServer::executeScript( std::string script )
 {
-    std::string myScriptFolder = "script/";
+    std::string myScriptFolder = Config::getSingletonPtr()->getScriptDir();
     myScriptFolder.append( script.c_str() );
     FILE* pipe = popen( myScriptFolder.c_str(), "r" );
     if ( !pipe ) return "ERROR";
