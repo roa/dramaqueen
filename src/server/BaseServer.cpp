@@ -77,7 +77,7 @@ void BaseServer::handleClient()
 
     if( !tempstr.empty() )
     {
-        std::string dir = "script/";
+        std::string dir = Config::getSingletonPtr()->getScriptDir();
         dir.append( tempstr );
         std::ifstream fileCheck( dir );
         if( fileCheck.good() )
