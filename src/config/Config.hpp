@@ -24,6 +24,7 @@ public:
     std::string getBind();
     std::string getSSLCert();
     std::string getSSLKey();
+    std::string getDaemonDir();
     std::vector<std::string> * getForeignHosts();
 
 private:
@@ -46,6 +47,7 @@ private:
     std::string bind;
     std::string sslCert;
     std::string sslKey;
+    std::string daemonDir;
     std::vector<std::string>* foreignHosts;
 
 };

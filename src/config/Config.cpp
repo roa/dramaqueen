@@ -42,7 +42,7 @@ Config::Config( std::string config )
 
 Config::~Config()
 {
-
+    delete foreignHosts;
 }
 
 void Config::load( const char* fname )
@@ -173,6 +173,21 @@ void Config::load( const char* fname )
     }
     lua_pop( L, 1 );
 
+    /**********************
+     *  load daemondir    *
+     **********************/
+    lua_getglobal( L, "daemonDir" );
+    if( !lua_isstring( L, 1 ) )
+    {
+        logger->log( "daemonDir is not a string" );
+    }
+    else
+    {
+        daemonDir = lua_tostring( L, 1 );
+        logger->log( "set daemonDir to: ", daemonDir );
+    }
+    lua_pop( L, 1 );
+
      /**********************
      *  load foreign Hosts *
      **********************/
@@ -241,6 +256,11 @@ std::string Config::getSSLCert()
 std::string Config::getSSLKey()
 {
     return sslKey;
+}
+
+std::string Config::getDaemonDir()
+{
+    return daemonDir;
 }
 
 std::vector<std::string> * Config::getForeignHosts()
