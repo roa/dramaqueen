@@ -5,7 +5,7 @@ namespace Dramaqueen
 
 Daemon::Daemon( std::string _daemonName, Client* _j ) : j( _j ), daemonName( _daemonName )
 {
-    daemonDir = "/home/roa/programming/dramaqueen/daemon/";
+    daemonDir = Config::getSingletonPtr()->getDaemonDir();
     shouldRun = true;
     logger = Logger::getSingletonPtr();
     load();

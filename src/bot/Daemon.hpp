@@ -5,6 +5,7 @@
 #include <lua.hpp>
 
 #include "../logger/Logger.hpp"
+#include "../config/Config.hpp"
 
 #include <gloox/client.h>
 #include <gloox/loghandler.h>
