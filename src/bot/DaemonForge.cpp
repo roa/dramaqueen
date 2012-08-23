@@ -3,19 +3,11 @@
 namespace Dramaqueen
 {
 
-std::string Daemon::executeScript( std::string script )
+void DaemonForge::operator()() const
 {
-    FILE* pipe = popen( script.c_str(), "r" );
-    if ( !pipe ) return "ERROR";
-    char buffer[128];
-    std::string result = "";
-    while( !feof( pipe ) )
-    {
-        if( fgets( buffer, 128, pipe ) != NULL )
-            result += buffer;
-    }
-    pclose( pipe );
-    return result;
+    Daemon * d = new Daemon( daemonName, j );
+    d->observe();
+    delete d;
 }
 
 DaemonForge::DaemonForge( std::string const& daemon_, Client* _j ) : daemonName( daemon_ ), j( _j )

@@ -72,6 +72,10 @@ int main( int argc, char **argv )
     if( argc < 3 )
     {
         std::cerr << "need log and config" << std::endl;
+        /**
+            TODO
+            add standard help text
+        **/
         exit( 0 );
     }
 
