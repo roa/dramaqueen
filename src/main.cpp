@@ -43,13 +43,24 @@ void initDaemonForge( std::string daemonDir, Client* _j )
             break;
         }
         std::string currentFile = dir->d_name;
+        if( currentFile.find( "." ) == 0 )
+        {
+            Logger::getSingletonPtr()->log( "daemon skips file: ", currentFile );
+            Logger::getSingletonPtr()->log( "daemon config files must not begin with a dot" );
+            continue;
+        }
         if( currentFile.find( ".lua" ) < currentFile.npos )
         {
             std::thread daemonThread{ DaemonForge( currentFile, _j ) };
             daemonThread.detach();
         }
+        else
+        {
+            Logger::getSingletonPtr()->log( "cannot add daemon for: ", currentFile );
+            Logger::getSingletonPtr()->log( "daemon config files must have a lua suffix" );
+        }
     }
-    closedir( dir );
+    closedir( dp );
 }
 
 int main( int argc, char **argv )
