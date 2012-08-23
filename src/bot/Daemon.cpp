@@ -6,6 +6,7 @@ namespace Dramaqueen
 Daemon::Daemon( std::string _daemonName, Client* _j ) : j( _j ), daemonName( _daemonName )
 {
     daemonDir = "/home/roa/programming/dramaqueen/daemon/";
+    shouldRun = true;
     logger = Logger::getSingletonPtr();
     load();
 }
@@ -25,13 +26,14 @@ void Daemon::load()
     {
         logger->log( "Could not load daemon config file: ", script.str().c_str() );
         logger->log( "lua error message:", lua_tostring( L, 1 ) );
-        exit( 0 );
+        shouldRun = false;
     }
 
     lua_getglobal( L, "checkTime" );
     if( !lua_isnumber( L, 1 ) )
     {
         logger->log( "checkTime is not a number" );
+        shouldRun = false;
     }
     else
     {
@@ -46,11 +48,12 @@ void Daemon::load()
     if( !lua_isstring( L, 1 ) )
     {
         logger->log( "script is not a number" );
+        shouldRun = false;
     }
     else
     {
         scriptName = lua_tostring( L, 1 );
-        logger->log( "set scriptName for daemon to", scriptName );
+        logger->log( "set scriptName for daemon to ", scriptName );
     }
 
     lua_pop( L, 1 );
@@ -60,12 +63,17 @@ void Daemon::load()
 
 void Daemon::observe()
 {
-    while( true )
+    while( shouldRun )
     {
         std::string result = executeScript( scriptName);
         if( !result.empty() )
         {
             Message::MessageType type = Message::MessageType::Chat;
+            /**
+                TODO:
+                add daemon config parameter for
+                recipients
+            **/
             std::string to = "roa@localhost";
             Message msg( type, to, result );
             j->send( msg );

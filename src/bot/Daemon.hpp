@@ -35,6 +35,8 @@ private:
 
     int checkTime;
 
+    bool shouldRun;
+
     void load();
     std::string executeScript( std::string script );
 };
@@ -47,11 +49,9 @@ public:
     explicit DaemonForge( std::string const& daemon_, Client* _j );
     void operator()() const
     {
-        std::cout << daemonName << std::endl;
-        Daemon * test;
-        test = new Daemon( daemonName, j );
-        test->observe();
-        delete test;
+        Daemon * d = new Daemon( daemonName, j );
+        d->observe();
+        delete d;
     }
 };
 
