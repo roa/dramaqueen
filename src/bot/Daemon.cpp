@@ -58,6 +58,29 @@ void Daemon::load()
 
     lua_pop( L, 1 );
 
+    lua_getglobal( L, "recipients" );
+    if( !lua_istable( L, 1 ) )
+    {
+        logger->log( "recipients is not a table for daemon: ", daemonName );
+        shouldRun = false;
+    }
+    else
+    {
+        lua_pushnil( L );
+
+        while( lua_next( L, 1 ) != 0 )
+        {
+            recipients.push_back( lua_tostring( L, -1 ) );
+            lua_pop( L, 1 );
+        }
+    }
+
+    if( recipients.size() == 0 )
+    {
+        logger->log( "you must specify at least one recipient. cannot run daemon: ", daemonName );
+        shouldRun = false;
+    }
+
     lua_close( L );
 }
 

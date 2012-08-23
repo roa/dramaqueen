@@ -33,6 +33,7 @@ private:
     std::string daemonDir;
     std::string daemonName;
     std::string scriptName;
+    std::vector<std::string> recipients;
 
     int checkTime;
 

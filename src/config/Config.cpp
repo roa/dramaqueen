@@ -42,7 +42,7 @@ Config::Config( std::string config )
 
 Config::~Config()
 {
-
+    delete foreignHosts;
 }
 
 void Config::load( const char* fname )
