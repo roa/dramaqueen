@@ -92,14 +92,12 @@ void Daemon::observe()
         if( !result.empty() )
         {
             Message::MessageType type = Message::MessageType::Chat;
-            /**
-                TODO:
-                add daemon config parameter for
-                recipients
-            **/
-            std::string to = "roa@localhost";
-            Message msg( type, to, result );
-            j->send( msg );
+            for( std::vector<std::string>::iterator it = recipients.begin(); it != recipients.end(); ++it )
+            {
+                std::string recipient = *it;
+                Message msg( type, recipient, result );
+                j->send( msg );
+            }
         }
         sleep( checkTime );
     }
