@@ -40,9 +40,9 @@ OBJDIR_RELEASE = obj/Release
 DEP_RELEASE = 
 OUT_RELEASE = bin/Release/dramaqueen
 
-OBJ_DEBUG = $(OBJDIR_DEBUG)/src/bot/Bot.o $(OBJDIR_DEBUG)/src/bot/Daemon.o $(OBJDIR_DEBUG)/src/client/BaseClient.o $(OBJDIR_DEBUG)/src/config/Config.o $(OBJDIR_DEBUG)/src/logger/Logger.o $(OBJDIR_DEBUG)/src/main.o $(OBJDIR_DEBUG)/src/server/BaseServer.o
+OBJ_DEBUG = $(OBJDIR_DEBUG)/src/bot/Bot.o $(OBJDIR_DEBUG)/src/bot/Daemon.o $(OBJDIR_DEBUG)/src/bot/DaemonForge.o $(OBJDIR_DEBUG)/src/client/BaseClient.o $(OBJDIR_DEBUG)/src/config/Config.o $(OBJDIR_DEBUG)/src/logger/Logger.o $(OBJDIR_DEBUG)/src/main.o $(OBJDIR_DEBUG)/src/server/BaseServer.o
 
-OBJ_RELEASE = $(OBJDIR_RELEASE)/src/bot/Bot.o $(OBJDIR_RELEASE)/src/bot/Daemon.o $(OBJDIR_RELEASE)/src/client/BaseClient.o $(OBJDIR_RELEASE)/src/config/Config.o $(OBJDIR_RELEASE)/src/logger/Logger.o $(OBJDIR_RELEASE)/src/main.o $(OBJDIR_RELEASE)/src/server/BaseServer.o
+OBJ_RELEASE = $(OBJDIR_RELEASE)/src/bot/Bot.o $(OBJDIR_RELEASE)/src/bot/Daemon.o $(OBJDIR_RELEASE)/src/bot/DaemonForge.o $(OBJDIR_RELEASE)/src/client/BaseClient.o $(OBJDIR_RELEASE)/src/config/Config.o $(OBJDIR_RELEASE)/src/logger/Logger.o $(OBJDIR_RELEASE)/src/main.o $(OBJDIR_RELEASE)/src/server/BaseServer.o
 
 all: debug release
 
@@ -69,6 +69,9 @@ $(OBJDIR_DEBUG)/src/bot/Bot.o: src/bot/Bot.cpp
 
 $(OBJDIR_DEBUG)/src/bot/Daemon.o: src/bot/Daemon.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/bot/Daemon.cpp -o $(OBJDIR_DEBUG)/src/bot/Daemon.o
+
+$(OBJDIR_DEBUG)/src/bot/DaemonForge.o: src/bot/DaemonForge.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/bot/DaemonForge.cpp -o $(OBJDIR_DEBUG)/src/bot/DaemonForge.o
 
 $(OBJDIR_DEBUG)/src/client/BaseClient.o: src/client/BaseClient.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/client/BaseClient.cpp -o $(OBJDIR_DEBUG)/src/client/BaseClient.o
@@ -116,6 +119,9 @@ $(OBJDIR_RELEASE)/src/bot/Bot.o: src/bot/Bot.cpp
 
 $(OBJDIR_RELEASE)/src/bot/Daemon.o: src/bot/Daemon.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/bot/Daemon.cpp -o $(OBJDIR_RELEASE)/src/bot/Daemon.o
+
+$(OBJDIR_RELEASE)/src/bot/DaemonForge.o: src/bot/DaemonForge.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/bot/DaemonForge.cpp -o $(OBJDIR_RELEASE)/src/bot/DaemonForge.o
 
 $(OBJDIR_RELEASE)/src/client/BaseClient.o: src/client/BaseClient.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/client/BaseClient.cpp -o $(OBJDIR_RELEASE)/src/client/BaseClient.o
