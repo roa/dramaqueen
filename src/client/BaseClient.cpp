@@ -88,9 +88,11 @@ std::string BaseClient::connectToServer()
         logger->log( "connect failed" );
         /**
         TODO: remove this crap
-        **/
+
         FILE * mystream = fopen( "/tmp/rand", "w+");
-        ERR_print_errors_fp( mystream );
+        fclose( mystream );
+        **/
+        ERR_print_errors_fp( stderr );
 
         if ( !BIO_set_close( bio, BIO_CLOSE ) )
         {
