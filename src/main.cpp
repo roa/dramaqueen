@@ -10,6 +10,7 @@
 #include "bot/Bot.hpp"
 #include "config/Config.hpp"
 #include "bot/Daemon.hpp"
+#include "bot/DaemonForge.hpp"
 
 using namespace Dramaqueen;
 using namespace gloox;
