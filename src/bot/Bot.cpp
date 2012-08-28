@@ -81,6 +81,10 @@ std::string Bot::contactHosts( std::string command )
     for( std::vector<std::string>::iterator it = foreignHosts->begin(); it != foreignHosts->end(); ++it )
     {
         std::string currentHost = *it;
+        /**
+            TODO:
+            parallelize it!
+        **/
         BaseClient baseclient( currentHost, command );
         results.append( baseclient.run() );
     }

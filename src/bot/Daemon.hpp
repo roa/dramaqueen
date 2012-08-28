@@ -6,6 +6,7 @@
 
 #include "../logger/Logger.hpp"
 #include "../config/Config.hpp"
+#include "../client/BaseClient.hpp"
 
 #include <gloox/client.h>
 #include <gloox/loghandler.h>
@@ -34,6 +35,7 @@ private:
     std::string daemonName;
     std::string scriptName;
     std::vector<std::string> recipients;
+    std::vector<std::string> hosts;
 
     int checkTime;
 
@@ -41,6 +43,8 @@ private:
 
     void load();
     std::string executeScript( std::string script );
+    std::string contactHosts( std::string command );
+
 };
 
 }

@@ -34,7 +34,10 @@ void BaseServer::initServer()
     cert = Config::getSingletonPtr()->getSSLCert();
     key  = Config::getSingletonPtr()->getSSLKey();
     host = Config::getSingletonPtr()->getBind();
-
+    /**
+        TODO:
+        check return values
+    **/
     ctx = SSL_CTX_new(SSLv3_server_method());
     SSL_CTX_use_certificate_file(ctx, cert.c_str(), SSL_FILETYPE_PEM);
     SSL_CTX_use_PrivateKey_file(ctx, key.c_str(), SSL_FILETYPE_PEM);
@@ -83,7 +86,19 @@ void BaseServer::handleClient()
         if( fileCheck.good() )
         {
             std::string buffer = executeScript( tempstr );
-            SSL_write( ssl, buffer.c_str(), buffer.size() );
+            if( !buffer.empty() )
+            {
+                int w = SSL_write( ssl, buffer.c_str(), buffer.size() );
+                if( w <= 0 )
+                {
+                    std::cout << "write failed" << std::endl;
+                    std::cout << SSL_get_error( ssl, w ) << std::endl;
+                }
+            }
+            else
+            {
+                close( cfd );
+            }
         }
         else
         {

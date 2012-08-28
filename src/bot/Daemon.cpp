@@ -81,6 +81,31 @@ void Daemon::load()
         shouldRun = false;
     }
 
+    lua_pop( L, 1 );
+
+    lua_getglobal( L, "hosts" );
+    if( !lua_istable( L, 1 ) )
+    {
+        logger->log( "hosts is not a table for daemon: ", daemonName );
+        shouldRun = false;
+    }
+    else
+    {
+        lua_pushnil( L );
+
+        while( lua_next( L, 1 ) != 0 )
+        {
+            hosts.push_back( lua_tostring( L, -1 ) );
+            lua_pop( L, 1 );
+        }
+    }
+
+    if( hosts.size() == 0 )
+    {
+        logger->log( "you must specify at least one host. cannot run daemon: ", daemonName );
+        shouldRun = false;
+    }
+
     lua_close( L );
 }
 
@@ -88,19 +113,37 @@ void Daemon::observe()
 {
     while( shouldRun )
     {
-        std::string result = executeScript( scriptName);
-        if( !result.empty() )
         {
             Message::MessageType type = Message::MessageType::Chat;
             for( std::vector<std::string>::iterator it = recipients.begin(); it != recipients.end(); ++it )
             {
                 std::string recipient = *it;
-                Message msg( type, recipient, result );
+                Message msg( type, recipient, contactHosts( scriptName ) );
                 j->send( msg );
             }
         }
         sleep( checkTime );
     }
+}
+
+std::string Daemon::contactHosts( std::string command )
+{
+    std::string results;
+    for( std::vector<std::string>::iterator it = hosts.begin(); it != hosts.end(); ++it )
+    {
+        std::string currentHost = *it;
+        /**
+            TODO:
+            parallelize it!
+        **/
+        BaseClient baseclient( currentHost, command );
+        results.append( baseclient.run() );
+    }
+    if( results.empty() )
+    {
+        results.append( "no hits" );
+    }
+    return results;
 }
 
 }

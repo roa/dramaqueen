@@ -47,6 +47,7 @@ private:
     std::string sendToServer();
     std::string recvFromServer();
     std::string intro();
+
 };
 
 }

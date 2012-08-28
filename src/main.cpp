@@ -7,8 +7,8 @@
 #include "server/BaseServer.hpp"
 #include "client/BaseClient.hpp"
 #include "logger/Logger.hpp"
-#include "bot/Bot.hpp"
 #include "config/Config.hpp"
+#include "bot/Bot.hpp"
 #include "bot/Daemon.hpp"
 #include "bot/DaemonForge.hpp"
 
@@ -34,6 +34,7 @@ void startServer()
 
 void initDaemonForge( std::string daemonDir, Client* _j )
 {
+    sleep( 5 );
     DIR* dp = opendir( daemonDir.c_str() );
     while( true )
     {

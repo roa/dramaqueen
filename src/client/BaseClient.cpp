@@ -28,7 +28,10 @@ std::string BaseClient::run()
     {
         return response;
     }
-
+    /**
+        TODO:
+        add handling if returned message is empty
+    **/
     response.append( intro() );
     response.append( recvFromServer() );
 
@@ -50,6 +53,10 @@ void BaseClient::initBaseClient()
 
 void BaseClient::initCTX()
 {
+    /**
+        TODO:
+        check return values
+    **/
     ctx  = NULL;
     cert = Config::getSingletonPtr()->getSSLCert();
     key  = Config::getSingletonPtr()->getSSLKey();
@@ -66,7 +73,10 @@ void BaseClient::initBio()
     {
         logger->log( "could not initialize bio" );
     }
-
+    /**
+        TODO:
+        check return values
+    **/
     BIO_get_ssl( bio, ssl );
     BIO_set_conn_hostname( bio, ( char * )host.c_str() );
 }
@@ -124,25 +134,30 @@ std::string BaseClient::sendToServer()
 
 std::string BaseClient::recvFromServer()
 {
+    std::string answer = "";
     char rbuffer[4096];
     memset( rbuffer, '\0', sizeof( rbuffer ) );
     int r = -1;
     while( r < 0 )
     {
         r = BIO_read( bio, rbuffer, sizeof( rbuffer ) );
+        if( r > 0 )
+        {
+            answer.append( rbuffer );
+        }
         if( r == 0 )
         {
-            continue;
+            break;
         }
         if( r < 0 )
         {
             if( !BIO_should_retry( bio ) )
             {
-                continue;
+                break;
             }
         }
     }
-    return rbuffer;
+    return answer;
 }
 
 std::string BaseClient::intro()
