@@ -10,7 +10,6 @@
 #include <iostream>
 #include <errno.h>
 #include <sstream>
-#include <pwd.h>
 
 #include "../config/Config.hpp"
 #include "../logger/Logger.hpp"
@@ -29,11 +28,9 @@ private:
     BIO *abio;
     BIO *client;
     SSL *ssl;
-    passwd *pw;
 
     Logger* logger;
 
-    void dropRights();
     void initServer();
     void handleClient();
     std::string executeScript( std::string script );

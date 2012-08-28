@@ -14,18 +14,6 @@ BaseServer::~BaseServer()
 
 }
 
-void BaseServer::dropRights()
-{
-    pw = getpwnam( Config::getSingletonPtr()->getUser().c_str() );
-    if( getuid() == 0)
-    {
-        if( setgid( pw->pw_gid ) != 0 )
-            logger->log( "setgid: Unable to drop group privileges: ", strerror( errno ) );
-        if( setuid( pw->pw_uid ) != 0 )
-            logger->log( "setuid: Unable to drop user privileges: ", strerror( errno ) );
-    }
-}
-
 void BaseServer::initServer()
 {
     SSL_library_init();
@@ -112,8 +100,6 @@ void BaseServer::handleClient()
 
 void BaseServer::run()
 {
-    dropRights();
-
     if( BIO_do_accept( abio ) <= 0 )
     {
         abort();

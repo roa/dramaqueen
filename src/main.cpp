@@ -3,6 +3,7 @@
 
 #include <sys/types.h>
 #include <dirent.h>
+#include <pwd.h>
 
 #include "server/BaseServer.hpp"
 #include "client/BaseClient.hpp"
@@ -64,6 +65,18 @@ void initDaemonForge( std::string daemonDir, Client* _j )
     closedir( dp );
 }
 
+void dropRights()
+{
+    passwd *pw = getpwnam( Config::getSingletonPtr()->getUser().c_str() );
+    if( getuid() == 0)
+    {
+        if( setgid( pw->pw_gid ) != 0 )
+            Logger::getSingletonPtr()->log( "setgid: Unable to drop group privileges: ", strerror( errno ) );
+        if( setuid( pw->pw_uid ) != 0 )
+            Logger::getSingletonPtr()->log( "setuid: Unable to drop user privileges: ", strerror( errno ) );
+    }
+}
+
 int main( int argc, char **argv )
 {
     int opt = 0;
@@ -101,6 +114,8 @@ int main( int argc, char **argv )
     }
     Logger::getSingletonPtr( logDest )->log( "initialized dramaqueen...");
     Config* config = Config::getSingletonPtr( confFile );
+
+    dropRights();
 
     if( config->getXmpp() )
     {
