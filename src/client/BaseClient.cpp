@@ -12,6 +12,7 @@ BaseClient::BaseClient( std::string _host, std::string _command ) :
 
 BaseClient::~BaseClient()
 {
+    destroyBio();
 }
 
 std::string BaseClient::run()
@@ -27,7 +28,7 @@ std::string BaseClient::run()
     if( !response.empty() )
     {
         SSL_CTX_free( ctx );
-        destroyBio();
+        //destroyBio();
         return response;
     }
     /**
@@ -41,7 +42,7 @@ std::string BaseClient::run()
         response.append( recv.c_str() );
     }
     SSL_CTX_free( ctx );
-    destroyBio();
+    //destroyBio();
     return response;
 }
 
@@ -87,6 +88,7 @@ void BaseClient::initBio()
 
 void BaseClient::destroyBio()
 {
+    SSL_free( ssl );
     BIO_free( bio );
 }
 
@@ -108,7 +110,7 @@ std::string BaseClient::connectToServer()
         {
             logger->log( "setting close flag n BaseClient failed" );
         }
-        BIO_free( bio );
+        //BIO_free( bio );
         answer  <<  std::endl << intro()
                 << "Could not connect to server: "
                 <<  host << std::endl;

@@ -70,7 +70,7 @@ void startComm()
         std::thread botThread( startBot );
         while( true )
         {
-            sleep( 1 );
+            sleep( 5 );
 
             if( ! ( j == NULL || ce == NULL ) )
             {

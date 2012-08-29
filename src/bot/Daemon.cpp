@@ -113,7 +113,13 @@ void Daemon::observe()
 {
     while( shouldRun )
     {
+        sleep( checkTime );
         if( ! *ce == ConnNoError )
+        {
+            shouldRun = false;
+            break;
+        }
+        if( j == NULL )
         {
             shouldRun = false;
             break;
@@ -127,7 +133,6 @@ void Daemon::observe()
                 j->send( msg );
             }
         }
-        sleep( checkTime );
     }
 }
 
