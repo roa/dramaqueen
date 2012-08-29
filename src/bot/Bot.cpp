@@ -25,7 +25,6 @@ void Bot::connectToXMPP()
           ce = j->recv();
         }
     }
-    std::cout << "died" << std::endl;
 }
 
 Client* Bot::getJ()

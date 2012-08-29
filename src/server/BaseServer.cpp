@@ -79,7 +79,10 @@ void BaseServer::handleClient()
                 int w = SSL_write( ssl, buffer.c_str(), buffer.size() );
                 if( w <= 0 )
                 {
-                    std::cout << "write failed" << std::endl;
+                    /**
+                        TODO:
+                        do something useful on failure
+                    **/
                     std::cout << SSL_get_error( ssl, w ) << std::endl;
                 }
             }

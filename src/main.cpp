@@ -74,8 +74,6 @@ void startComm()
             /**
             TODO: abort after some time
             **/
-            std::cout << i << std::endl;
-
             if( ! ( j == NULL || ce == NULL ) )
             {
                 initDaemon = true;
@@ -91,8 +89,6 @@ void startComm()
         {
             Logger::getSingletonPtr()->log( "initialized bot..." );
             initDaemonForge( Config::getSingletonPtr()->getDaemonDir(), j, ce );
-            std::cout << "before join" << std::endl;
-            std::cout << "after join" << std::endl;
         }
         botThread.join();
     }
