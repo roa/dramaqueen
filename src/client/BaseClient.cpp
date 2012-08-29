@@ -21,19 +21,25 @@ std::string BaseClient::run()
     response.append( connectToServer() );
     if( !response.empty() )
     {
+        destroyBio();
         return response;
     }
     response.append( sendToServer() );
     if( !response.empty() )
     {
+        destroyBio();
         return response;
     }
     /**
         TODO:
         add handling if returned message is empty
     **/
-    response.append( intro() );
-    response.append( recvFromServer() );
+    std::string recv = recvFromServer();
+    if( !recv.empty() )
+    {
+        response.append( intro() );
+        response.append( recv.c_str() );
+    }
 
     destroyBio();
 
@@ -43,9 +49,9 @@ std::string BaseClient::run()
 void BaseClient::initBaseClient()
 {
     ssl  = NULL;
-    SSL_load_error_strings();
+    //SSL_load_error_strings();
     SSL_library_init();
-    ERR_load_BIO_strings();
+    //ERR_load_BIO_strings();
     OpenSSL_add_all_algorithms();
     initCTX();
     initBio();

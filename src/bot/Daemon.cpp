@@ -3,7 +3,7 @@
 namespace Dramaqueen
 {
 
-Daemon::Daemon( std::string _daemonName, Client* _j ) : j( _j ), daemonName( _daemonName )
+Daemon::Daemon( std::string _daemonName, Client* _j, ConnectionError* _ce ) : j( _j ), daemonName( _daemonName ), ce( _ce )
 {
     daemonDir = Config::getSingletonPtr()->getDaemonDir();
     shouldRun = true;
@@ -113,6 +113,11 @@ void Daemon::observe()
 {
     while( shouldRun )
     {
+        if( ! *ce == ConnNoError )
+        {
+            shouldRun = false;
+            break;
+        }
         {
             Message::MessageType type = Message::MessageType::Chat;
             for( std::vector<std::string>::iterator it = recipients.begin(); it != recipients.end(); ++it )
@@ -141,7 +146,7 @@ std::string Daemon::contactHosts( std::string command )
     }
     if( results.empty() )
     {
-        results.append( "no hits" );
+        //results.append( "no hits" );
     }
     return results;
 }

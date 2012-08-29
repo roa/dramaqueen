@@ -30,9 +30,11 @@ public:
 
     void connectToXMPP();
     Client* getJ();
+    ConnectionError* getCE();
 
 private:
    Client* j;
+   ConnectionError ce;
 
    void initXMPP();
    virtual void onConnect();

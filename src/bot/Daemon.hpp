@@ -23,7 +23,7 @@ class Daemon
 {
 
 public:
-    Daemon( std::string _daemonName, Client* _j );
+    Daemon( std::string _daemonName, Client* _j, ConnectionError* ce );
     ~Daemon();
     void observe();
 private:
@@ -36,6 +36,8 @@ private:
     std::string scriptName;
     std::vector<std::string> recipients;
     std::vector<std::string> hosts;
+
+    ConnectionError* ce;
 
     int checkTime;
 

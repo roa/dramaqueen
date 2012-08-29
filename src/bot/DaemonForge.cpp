@@ -18,7 +18,7 @@ std::string Daemon::executeScript( std::string script )
     return result;
 }
 
-DaemonForge::DaemonForge( std::string const& daemon_, Client* _j ) : daemonName( daemon_ ), j( _j )
+DaemonForge::DaemonForge( std::string const& daemon_, Client* _j, ConnectionError* _ce ) : daemonName( daemon_ ), j( _j ), ce( _ce )
 {
 
 }

@@ -11,10 +11,11 @@ class DaemonForge
 public:
     std::string daemonName;
     Client* j;
-    explicit DaemonForge( std::string const& daemon_, Client* _j );
+    ConnectionError* ce;
+    explicit DaemonForge( std::string const& daemon_, Client* _j, ConnectionError* _ce );
     void operator()() const
     {
-        Daemon * d = new Daemon( daemonName, j );
+        Daemon * d = new Daemon( daemonName, j, ce );
         d->observe();
         delete d;
     }

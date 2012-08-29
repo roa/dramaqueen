@@ -7,7 +7,7 @@ namespace Dramaqueen
 
 Bot::Bot()
 {
-
+    ce = ConnNoError;
     initXMPP();
 }
 
@@ -20,17 +20,22 @@ void Bot::connectToXMPP()
 {
     if( j->connect( false ) )
     {
-        ConnectionError ce = ConnNoError;
         while( ce == ConnNoError )
         {
           ce = j->recv();
         }
     }
+    std::cout << "died" << std::endl;
 }
 
 Client* Bot::getJ()
 {
     return j;
+}
+
+ConnectionError* Bot::getCE()
+{
+    return &ce;
 }
 
 void Bot::initXMPP()

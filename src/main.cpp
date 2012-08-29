@@ -17,23 +17,9 @@ using namespace Dramaqueen;
 using namespace gloox;
 
 Client* j = NULL;
+ConnectionError* ce = NULL;
 
-void startBot()
-{
-    Bot bot;
-    j = bot.getJ();
-    bot.connectToXMPP();
-}
-
-void startServer()
-{
-    BaseServer *server;
-    server = new BaseServer();
-    server->run();
-    delete server;
-}
-
-void initDaemonForge( std::string daemonDir, Client* _j )
+void initDaemonForge( std::string daemonDir, Client* _j, ConnectionError* ce )
 {
     sleep( 5 );
     DIR* dp = opendir( daemonDir.c_str() );
@@ -53,7 +39,7 @@ void initDaemonForge( std::string daemonDir, Client* _j )
         }
         if( currentFile.find( ".lua" ) < currentFile.npos )
         {
-            std::thread daemonThread{ DaemonForge( currentFile, _j ) };
+            std::thread daemonThread{ DaemonForge( currentFile, _j, ce ) };
             daemonThread.detach();
         }
         else
@@ -63,6 +49,62 @@ void initDaemonForge( std::string daemonDir, Client* _j )
         }
     }
     closedir( dp );
+}
+
+void startBot()
+{
+    Bot bot;
+    j = bot.getJ();
+    ce = bot.getCE();
+    bot.connectToXMPP();
+    j = NULL;
+    ce = NULL;
+}
+
+void startComm()
+{
+    while( true )
+    {
+        int i = 0;
+        bool initDaemon = false;
+        std::thread botThread( startBot );
+        while( true )
+        {
+            sleep( 1 );
+            /**
+            TODO: abort after some time
+            **/
+            std::cout << i << std::endl;
+
+            if( ! ( j == NULL || ce == NULL ) )
+            {
+                initDaemon = true;
+                break;
+            }
+
+            if( i++ > 3 )
+            {
+                break;
+            }
+        }
+        if( initDaemon )
+        {
+            Logger::getSingletonPtr()->log( "initialized bot..." );
+            initDaemonForge( Config::getSingletonPtr()->getDaemonDir(), j, ce );
+            std::cout << "before join" << std::endl;
+            std::cout << "after join" << std::endl;
+        }
+        botThread.join();
+    }
+
+}
+
+void startServer()
+{
+    BaseServer *server;
+    server = new BaseServer();
+    server->run();
+    delete server;
 }
 
 void dropRights()
@@ -119,23 +161,12 @@ int main( int argc, char **argv )
 
     if( config->getXmpp() )
     {
-        std::thread botThread( startBot );
-
-        while( j == NULL )
-        {
-            /**
-            TODO: abort after some time
-            **/
-            sleep( 1 );
-        }
-        Logger::getSingletonPtr()->log( "initialized bot..." );
-
-        initDaemonForge( config->getDaemonDir(), j );
-
         std::thread srvThread( startServer );
 
+        startComm();
+
+
         srvThread.join();
-        botThread.join();
     }
     else
     {

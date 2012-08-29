@@ -40,7 +40,7 @@ src_install() {
 	"${D}/usr/local/bin/" || die
 	
 	dodir "/etc/dramaqueen"
-	cp "${PORTAGE_BUILDDIR}/work/dramaqueen-0.01/config/init.lua" \
+	cp "${FILESDIR}/init.lua" \
 	"${D}/etc/dramaqueen" || die
 
 	dodir	/var/lib/dramaqueen \
