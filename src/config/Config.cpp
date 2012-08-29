@@ -37,6 +37,7 @@ Config::Config()
 Config::Config( std::string config )
 {
     logger = Logger::getSingletonPtr();
+    foreignHosts = new std::vector<std::string>;
     load( config.c_str() );
 }
 
@@ -213,7 +214,6 @@ void Config::load( const char* fname )
     }
     else
     {
-        foreignHosts = new std::vector<std::string>;
         lua_pushnil( L );
 
         while( lua_next( L, 1 ) != 0 )

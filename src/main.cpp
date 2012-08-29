@@ -71,9 +71,7 @@ void startComm()
         while( true )
         {
             sleep( 1 );
-            /**
-            TODO: abort after some time
-            **/
+
             if( ! ( j == NULL || ce == NULL ) )
             {
                 initDaemon = true;
@@ -89,10 +87,10 @@ void startComm()
         {
             Logger::getSingletonPtr()->log( "initialized bot..." );
             initDaemonForge( Config::getSingletonPtr()->getDaemonDir(), j, ce );
+            Logger::getSingletonPtr()->log( "initialized daemons..." );
         }
         botThread.join();
     }
-
 }
 
 void startServer()
@@ -118,12 +116,16 @@ void dropRights()
 int main( int argc, char **argv )
 {
     int opt = 0;
-    std::string logDest  = "log/dev.log";
-    std::string confFile = "/home/roa/programming/dramaqueen/config/init.lua";
+    std::string logDest  = "";
+    std::string confFile = "";
 
     if( argc < 3 )
     {
         std::cerr << "need log and config" << std::endl;
+        /**
+            TODO:
+            more informative help
+        **/
         exit( 0 );
     }
 
@@ -160,7 +162,6 @@ int main( int argc, char **argv )
         std::thread srvThread( startServer );
 
         startComm();
-
 
         srvThread.join();
     }

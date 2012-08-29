@@ -11,7 +11,7 @@ BaseServer::BaseServer()
 
 BaseServer::~BaseServer()
 {
-
+    SSL_CTX_free( ctx );
 }
 
 void BaseServer::initServer()
@@ -112,6 +112,11 @@ void BaseServer::run()
 
     int afd = BIO_get_fd( abio,NULL );
 
+    /**
+        TODO:
+        replace true with abort condition
+        from sighandler
+    **/
     while( true )
     {
         FD_ZERO( &fds );

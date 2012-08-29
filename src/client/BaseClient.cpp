@@ -12,7 +12,6 @@ BaseClient::BaseClient( std::string _host, std::string _command ) :
 
 BaseClient::~BaseClient()
 {
-
 }
 
 std::string BaseClient::run()
@@ -21,12 +20,13 @@ std::string BaseClient::run()
     response.append( connectToServer() );
     if( !response.empty() )
     {
-        destroyBio();
+        SSL_CTX_free( ctx );
         return response;
     }
     response.append( sendToServer() );
     if( !response.empty() )
     {
+        SSL_CTX_free( ctx );
         destroyBio();
         return response;
     }
@@ -40,9 +40,8 @@ std::string BaseClient::run()
         response.append( intro() );
         response.append( recv.c_str() );
     }
-
+    SSL_CTX_free( ctx );
     destroyBio();
-
     return response;
 }
 
@@ -51,8 +50,7 @@ void BaseClient::initBaseClient()
     ssl  = NULL;
     //SSL_load_error_strings();
     SSL_library_init();
-    //ERR_load_BIO_strings();
-    OpenSSL_add_all_algorithms();
+    ERR_load_BIO_strings();
     initCTX();
     initBio();
 }
@@ -89,10 +87,6 @@ void BaseClient::initBio()
 
 void BaseClient::destroyBio()
 {
-    if ( !BIO_set_close( bio, BIO_CLOSE ) )
-    {
-        logger->log( "setting close flag n BaseClient failed" );
-    }
     BIO_free( bio );
 }
 

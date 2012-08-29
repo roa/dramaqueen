@@ -70,6 +70,7 @@ void Bot::handleMessage( const Message& stanza, MessageSession* session )
         Message::MessageType type = Message::MessageType::Chat;
         Message msg( type, stanza.from(), contactHosts( stanza.body() ) );
         j->send( msg );
+
     }
 }
 
