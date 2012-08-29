@@ -21,7 +21,7 @@ ConnectionError* ce = NULL;
 
 void initDaemonForge( std::string daemonDir, Client* _j, ConnectionError* ce )
 {
-    sleep( 5 );
+    //sleep( 5 );
     DIR* dp = opendir( daemonDir.c_str() );
     while( true )
     {

@@ -114,25 +114,30 @@ void Daemon::observe()
     while( shouldRun )
     {
         sleep( checkTime );
+
         if( ! *ce == ConnNoError )
         {
-            shouldRun = false;
-            break;
+            //shouldRun = false;
+            //break;
+            continue;
         }
         if( j == NULL )
         {
-            shouldRun = false;
-            break;
+            //shouldRun = false;
+            //break;
+            continue;
         }
+
+        Message::MessageType type = Message::MessageType::Chat;
+        for( std::vector<std::string>::iterator it = recipients.begin(); it != recipients.end(); ++it )
         {
-            Message::MessageType type = Message::MessageType::Chat;
-            for( std::vector<std::string>::iterator it = recipients.begin(); it != recipients.end(); ++it )
-            {
-                std::string recipient = *it;
-                Message msg( type, recipient, contactHosts( scriptName ) );
+            std::string recipient = *it;
+            std::string content = contactHosts( scriptName );
+            Message msg( type, recipient, content );
+            if( !content.empty() )
                 j->send( msg );
-            }
         }
+
     }
 }
 
