@@ -1,11 +1,8 @@
 #include <iostream>
 #include <thread>
 
-#include <sys/types.h>
-#include <pwd.h>
-
+#include "Helper.hpp"
 #include "news/NewsForge.hpp"
-#include "server/BaseServer.hpp"
 #include "server/ServerForge.hpp"
 #include "news/client/BaseClient.hpp"
 #include "logger/Logger.hpp"
@@ -16,18 +13,6 @@
 
 using namespace Dramaqueen;
 using namespace gloox;
-
-void dropRights()
-{
-    passwd *pw = getpwnam( Config::getSingletonPtr()->getUser().c_str() );
-    if( getuid() == 0)
-    {
-        if( setgid( pw->pw_gid ) != 0 )
-            Logger::getSingletonPtr()->log( "setgid: Unable to drop group privileges: ", strerror( errno ) );
-        if( setuid( pw->pw_uid ) != 0 )
-            Logger::getSingletonPtr()->log( "setuid: Unable to drop user privileges: ", strerror( errno ) );
-    }
-}
 
 int main( int argc, char **argv )
 {
@@ -71,7 +56,7 @@ int main( int argc, char **argv )
     Logger::getSingletonPtr( logDest )->log( "initialized dramaqueen...");
     Config* config = Config::getSingletonPtr( confFile );
 
-    dropRights();
+    Helper::dropPrivs();
 
     if( config->getXmpp() )
     {
