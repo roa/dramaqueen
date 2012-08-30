@@ -117,15 +117,11 @@ void Daemon::observe()
 
         if( ! *ce == ConnNoError )
         {
-            //shouldRun = false;
-            //break;
-            continue;
+            break;
         }
         if( j == NULL )
         {
-            //shouldRun = false;
-            //break;
-            continue;
+            break;
         }
 
         Message::MessageType type = Message::MessageType::Chat;
@@ -153,10 +149,6 @@ std::string Daemon::contactHosts( std::string command )
         **/
         BaseClient baseclient( currentHost, command );
         results.append( baseclient.run() );
-    }
-    if( results.empty() )
-    {
-        //results.append( "no hits" );
     }
     return results;
 }

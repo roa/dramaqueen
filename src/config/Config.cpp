@@ -7,13 +7,7 @@ Config* Config::singletonPtr = 0;
 
 Config * Config::getSingletonPtr()
 {
-/*
-    if ( !singletonPtr )
-    {
-        singletonPtr = new Config();
-    }
-*/
-    while( !singletonPtr )
+    while( ! singletonPtr )
     {
         sleep( 1 );
     }

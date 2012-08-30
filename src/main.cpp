@@ -6,6 +6,7 @@
 #include <pwd.h>
 
 #include "server/BaseServer.hpp"
+#include "server/ServerForge.hpp"
 #include "client/BaseClient.hpp"
 #include "logger/Logger.hpp"
 #include "config/Config.hpp"
@@ -21,7 +22,6 @@ ConnectionError* ce = NULL;
 
 void initDaemonForge( std::string daemonDir, Client* _j, ConnectionError* ce )
 {
-    //sleep( 5 );
     DIR* dp = opendir( daemonDir.c_str() );
     while( true )
     {
@@ -93,14 +93,6 @@ void startComm()
     }
 }
 
-void startServer()
-{
-    BaseServer *server;
-    server = new BaseServer();
-    server->run();
-    delete server;
-}
-
 void dropRights()
 {
     passwd *pw = getpwnam( Config::getSingletonPtr()->getUser().c_str() );
@@ -159,7 +151,7 @@ int main( int argc, char **argv )
 
     if( config->getXmpp() )
     {
-        std::thread srvThread( startServer );
+        std::thread srvThread{ ServerForge() };
 
         startComm();
 

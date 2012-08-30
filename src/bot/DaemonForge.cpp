@@ -23,4 +23,11 @@ DaemonForge::DaemonForge( std::string const& daemon_, Client* _j, ConnectionErro
 
 }
 
+void DaemonForge::operator()() const
+{
+    Daemon * d = new Daemon( daemonName, j, ce );
+    d->observe();
+    delete d;
+}
+
 }
