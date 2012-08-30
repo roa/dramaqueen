@@ -26,9 +26,9 @@ void BaseServer::initServer()
         TODO:
         check return values
     **/
-    ctx = SSL_CTX_new(SSLv3_server_method());
-    SSL_CTX_use_certificate_file(ctx, cert.c_str(), SSL_FILETYPE_PEM);
-    SSL_CTX_use_PrivateKey_file(ctx, key.c_str(), SSL_FILETYPE_PEM);
+    ctx = SSL_CTX_new( SSLv3_server_method() );
+    SSL_CTX_use_certificate_file(ctx, cert.c_str(), SSL_FILETYPE_PEM );
+    SSL_CTX_use_PrivateKey_file(ctx, key.c_str(), SSL_FILETYPE_PEM );
     abio = BIO_new_accept( ( char * ) host.c_str() );
     if( abio == NULL )
     {
@@ -42,11 +42,11 @@ void BaseServer::handleClient()
     int cfd = BIO_get_fd( client, NULL );
     int r;
     char rbuf[4096];
-    std::string tempstr;
+    std::string message;
 
     memset( rbuf, '\0', sizeof(rbuf) );
 
-    tempstr.append( rbuf );
+    message.append( rbuf );
 
     do
     {
@@ -62,18 +62,18 @@ void BaseServer::handleClient()
         else
         {
             rbuf[r] = '\0';
-            tempstr.append( rbuf );
+            message.append( rbuf );
         }
     } while( SSL_pending( ssl ) );
 
-    if( !tempstr.empty() )
+    if( !message.empty() )
     {
         std::string dir = Config::getSingletonPtr()->getScriptDir();
-        dir.append( tempstr );
+        dir.append( message );
         std::ifstream fileCheck( dir );
         if( fileCheck.good() )
         {
-            std::string buffer = executeScript( tempstr );
+            std::string buffer = executeScript( message );
             if( !buffer.empty() )
             {
                 int w = SSL_write( ssl, buffer.c_str(), buffer.size() );
@@ -93,7 +93,7 @@ void BaseServer::handleClient()
         }
         else
         {
-            logger->log( "did not find file: ", tempstr );
+            logger->log( "did not find file: ", message );
         }
     }
     close( cfd );

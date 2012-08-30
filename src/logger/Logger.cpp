@@ -7,9 +7,9 @@ Logger * Logger::singletonPtr = 0;
 std::string Logger::logDest = "/var/log/dramaqueen/drama.log";
 Logger * Logger::getSingletonPtr()
 {
-    if ( !singletonPtr )
+    while( !singletonPtr )
     {
-        singletonPtr = new Logger();
+        sleep( 1 );
     }
     return singletonPtr;
 }
