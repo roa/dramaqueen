@@ -35,7 +35,7 @@ private:
 
     BIO     *bio;
     SSL_CTX *ctx;
-    SSL     *ssl;
+    //SSL     *ssl;
 
     Logger  *logger;
 

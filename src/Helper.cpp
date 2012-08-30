@@ -16,6 +16,10 @@ void dropPrivs()
         if( setuid( pw->pw_uid ) != 0 )
             Logger::getSingletonPtr()->log( "setuid: Unable to drop user privileges: ", strerror( errno ) );
     }
+    /**
+        TODO:
+        free pw
+    **/
 }
 
 }

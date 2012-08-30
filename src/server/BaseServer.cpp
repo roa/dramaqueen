@@ -95,9 +95,7 @@ void BaseServer::handleClient()
         {
             logger->log( "did not find file: ", tempstr );
         }
-
     }
-
     close( cfd );
 }
 

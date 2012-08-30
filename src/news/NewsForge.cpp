@@ -38,6 +38,7 @@ void NewsForge::initDaemonForge( std::string daemonDir, Client* _j, ConnectionEr
         if( currentFile.find( ".lua" ) < currentFile.npos )
         {
             std::thread daemonThread{ DaemonForge( currentFile, _j, ce ) };
+            Logger::getSingletonPtr()->log( "added daemon for ", currentFile );
             daemonThread.detach();
         }
         else

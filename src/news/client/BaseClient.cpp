@@ -48,7 +48,7 @@ std::string BaseClient::run()
 
 void BaseClient::initBaseClient()
 {
-    ssl  = NULL;
+    //ssl  = NULL;
     //SSL_load_error_strings();
     SSL_library_init();
     ERR_load_BIO_strings();
@@ -82,13 +82,13 @@ void BaseClient::initBio()
         TODO:
         check return values
     **/
-    BIO_get_ssl( bio, ssl );
+    //BIO_get_ssl( bio, ssl );
     BIO_set_conn_hostname( bio, ( char * )host.c_str() );
 }
 
 void BaseClient::destroyBio()
 {
-    SSL_free( ssl );
+    //SSL_free( ssl );
     BIO_free( bio );
 }
 
