@@ -130,6 +130,7 @@ void BaseServer::run()
             SSL_set_bio( ssl, client, client );
             SSL_accept( ssl );
             handleClient();
+            SSL_shutdown(ssl);
             SSL_free(ssl);
         }
     }
