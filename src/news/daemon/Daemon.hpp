@@ -4,8 +4,8 @@
 #include <iostream>
 #include <lua.hpp>
 
-#include "../logger/Logger.hpp"
-#include "../config/Config.hpp"
+#include "../../logger/Logger.hpp"
+#include "../../config/Config.hpp"
 #include "../client/BaseClient.hpp"
 
 #include <gloox/client.h>

@@ -13,7 +13,7 @@
 #include <gloox/connectionlistener.h>
 #include <gloox/message.h>
 
-#include "../config/Config.hpp"
+#include "../../config/Config.hpp"
 #include "../client/BaseClient.hpp"
 
 using namespace gloox;

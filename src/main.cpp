@@ -7,12 +7,12 @@
 
 #include "server/BaseServer.hpp"
 #include "server/ServerForge.hpp"
-#include "client/BaseClient.hpp"
+#include "news/client/BaseClient.hpp"
 #include "logger/Logger.hpp"
 #include "config/Config.hpp"
-#include "bot/Bot.hpp"
-#include "bot/Daemon.hpp"
-#include "bot/DaemonForge.hpp"
+#include "news/bot/Bot.hpp"
+#include "news/daemon/Daemon.hpp"
+#include "news/daemon/DaemonForge.hpp"
 
 using namespace Dramaqueen;
 using namespace gloox;
@@ -159,7 +159,7 @@ int main( int argc, char **argv )
     }
     else
     {
-        std::thread srvThread( startServer );
+        std::thread srvThread{ ServerForge() };
         srvThread.join();
     }
 

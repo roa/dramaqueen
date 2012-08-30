@@ -11,8 +11,8 @@
 #include <netdb.h>
 #include <fcntl.h>
 
-#include "../logger/Logger.hpp"
-#include "../config/Config.hpp"
+#include "../../logger/Logger.hpp"
+#include "../../config/Config.hpp"
 
 namespace Dramaqueen
 {
