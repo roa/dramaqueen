@@ -65,7 +65,7 @@ void BaseClient::initCTX()
     ctx  = NULL;
     cert = Config::getSingletonPtr()->getSSLCert();
     key  = Config::getSingletonPtr()->getSSLKey();
-    ctx = SSL_CTX_new(SSLv23_client_method());
+    ctx = SSL_CTX_new(SSLv3_client_method());
     SSL_CTX_use_certificate_file( ctx, cert.c_str(), SSL_FILETYPE_PEM );
     SSL_CTX_use_PrivateKey_file( ctx, key.c_str(), SSL_FILETYPE_PEM );
 }
@@ -89,7 +89,7 @@ void BaseClient::initBio()
 void BaseClient::destroyBio()
 {
     //SSL_free( ssl );
-    BIO_free( bio );
+    BIO_free_all( bio );
 }
 
 std::string BaseClient::connectToServer()
