@@ -78,7 +78,7 @@ int main( int argc, char **argv )
         std::thread srvThread{ ServerForge() };
         std::thread newsThread{ NewsForge() };
 
-        newsThread.detach();
+        newsThread.join();
         srvThread.join();
     }
     else

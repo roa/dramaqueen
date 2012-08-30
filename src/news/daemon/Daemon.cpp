@@ -153,4 +153,19 @@ std::string Daemon::contactHosts( std::string command )
     return results;
 }
 
+std::string Daemon::executeScript( std::string script )
+{
+    FILE* pipe = popen( script.c_str(), "r" );
+    if ( !pipe ) return "ERROR";
+    char buffer[128];
+    std::string result = "";
+    while( !feof( pipe ) )
+    {
+        if( fgets( buffer, 128, pipe ) != NULL )
+            result += buffer;
+    }
+    pclose( pipe );
+    return result;
+}
+
 }

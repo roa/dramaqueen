@@ -10,6 +10,12 @@ NewsForge::NewsForge()
 
 NewsForge::~NewsForge()
 {
+
+}
+
+void NewsForge::operator() ()
+{
+    initNews();
 }
 
 void NewsForge::initDaemonForge( std::string daemonDir, Client* _j, ConnectionError* ce )
@@ -53,11 +59,16 @@ void NewsForge::initBot()
 void NewsForge::startBot()
 {
     bot->connectToXMPP();
-    j = NULL;
-    ce = NULL;
 }
 
-void NewsForge::operator() ()
+void NewsForge::destroyBot()
+{
+    j = NULL;
+    ce = NULL;
+    delete bot;
+}
+
+void NewsForge::initNews()
 {
     while( true )
     {
@@ -87,7 +98,7 @@ void NewsForge::operator() ()
             Logger::getSingletonPtr()->log( "initialized daemons..." );
         }
         botThread.join();
-        delete bot;
+        destroyBot();
     }
 }
 

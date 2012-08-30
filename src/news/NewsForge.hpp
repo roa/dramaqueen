@@ -22,6 +22,7 @@ public:
     void operator() ();
     explicit NewsForge();
     ~NewsForge();
+    //NewsForge( NewsForge const & );
 
 private:
 
@@ -29,9 +30,11 @@ private:
     ConnectionError* ce;
     Bot* bot;
 
+    void initNews();
     void initDaemonForge( std::string daemonDir, Client* _j, ConnectionError* ce );
     void initBot();
     void startBot();
+    void destroyBot();
 };
 
 }
