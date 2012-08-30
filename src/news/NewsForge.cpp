@@ -5,7 +5,7 @@ namespace Dramaqueen
 
 NewsForge::NewsForge()
 {
-
+    logger = Logger::getSingletonPtr();
 }
 
 NewsForge::~NewsForge()
@@ -31,20 +31,20 @@ void NewsForge::initDaemonForge( std::string daemonDir, Client* _j, ConnectionEr
         std::string currentFile = dir->d_name;
         if( currentFile.find( "." ) == 0 )
         {
-            Logger::getSingletonPtr()->log( "daemon skips file: ", currentFile );
-            Logger::getSingletonPtr()->log( "daemon config files must not begin with a dot" );
+            logger->log( "daemon skips file: ", currentFile );
+            logger->log( "daemon config files must not begin with a dot" );
             continue;
         }
         if( currentFile.find( ".lua" ) < currentFile.npos )
         {
             std::thread daemonThread{ DaemonForge( currentFile, _j, ce ) };
-            Logger::getSingletonPtr()->log( "added daemon for ", currentFile );
+            logger->log( "added daemon for ", currentFile );
             daemonThread.detach();
         }
         else
         {
-            Logger::getSingletonPtr()->log( "cannot add daemon for: ", currentFile );
-            Logger::getSingletonPtr()->log( "daemon config files must have a lua suffix" );
+            logger->log( "cannot add daemon for: ", currentFile );
+            logger->log( "daemon config files must have a lua suffix" );
         }
     }
     closedir( dp );
@@ -94,9 +94,9 @@ void NewsForge::initNews()
         }
         if( initDaemon )
         {
-            Logger::getSingletonPtr()->log( "initialized bot..." );
+            logger->log( "initialized bot..." );
             initDaemonForge( Config::getSingletonPtr()->getDaemonDir(), j, ce );
-            Logger::getSingletonPtr()->log( "initialized daemons..." );
+            logger->log( "initialized daemons..." );
         }
         botThread.join();
         destroyBot();
