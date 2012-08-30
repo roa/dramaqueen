@@ -4,12 +4,8 @@
 #include "Helper.hpp"
 #include "news/NewsForge.hpp"
 #include "server/ServerForge.hpp"
-#include "news/client/BaseClient.hpp"
 #include "logger/Logger.hpp"
 #include "config/Config.hpp"
-#include "news/bot/Bot.hpp"
-#include "news/daemon/Daemon.hpp"
-#include "news/daemon/DaemonForge.hpp"
 
 using namespace Dramaqueen;
 using namespace gloox;
@@ -53,6 +49,7 @@ int main( int argc, char **argv )
             }
         }
     }
+
     Logger::getSingletonPtr( logDest )->log( "initialized dramaqueen...");
     Config* config = Config::getSingletonPtr( confFile );
 
