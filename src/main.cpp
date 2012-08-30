@@ -2,9 +2,9 @@
 #include <thread>
 
 #include <sys/types.h>
-#include <dirent.h>
 #include <pwd.h>
 
+#include "news/NewsForge.hpp"
 #include "server/BaseServer.hpp"
 #include "server/ServerForge.hpp"
 #include "news/client/BaseClient.hpp"
@@ -16,82 +16,6 @@
 
 using namespace Dramaqueen;
 using namespace gloox;
-
-Client* j = NULL;
-ConnectionError* ce = NULL;
-
-void initDaemonForge( std::string daemonDir, Client* _j, ConnectionError* ce )
-{
-    DIR* dp = opendir( daemonDir.c_str() );
-    while( true )
-    {
-        struct dirent* dir = readdir( dp );
-        if( dir == NULL )
-        {
-            break;
-        }
-        std::string currentFile = dir->d_name;
-        if( currentFile.find( "." ) == 0 )
-        {
-            Logger::getSingletonPtr()->log( "daemon skips file: ", currentFile );
-            Logger::getSingletonPtr()->log( "daemon config files must not begin with a dot" );
-            continue;
-        }
-        if( currentFile.find( ".lua" ) < currentFile.npos )
-        {
-            std::thread daemonThread{ DaemonForge( currentFile, _j, ce ) };
-            daemonThread.detach();
-        }
-        else
-        {
-            Logger::getSingletonPtr()->log( "cannot add daemon for: ", currentFile );
-            Logger::getSingletonPtr()->log( "daemon config files must have a lua suffix" );
-        }
-    }
-    closedir( dp );
-}
-
-void startBot()
-{
-    Bot bot;
-    j = bot.getJ();
-    ce = bot.getCE();
-    bot.connectToXMPP();
-    j = NULL;
-    ce = NULL;
-}
-
-void startComm()
-{
-    while( true )
-    {
-        int i = 0;
-        bool initDaemon = false;
-        std::thread botThread( startBot );
-        while( true )
-        {
-            sleep( 5 );
-
-            if( ! ( j == NULL || ce == NULL ) )
-            {
-                initDaemon = true;
-                break;
-            }
-
-            if( i++ > 3 )
-            {
-                break;
-            }
-        }
-        if( initDaemon )
-        {
-            Logger::getSingletonPtr()->log( "initialized bot..." );
-            initDaemonForge( Config::getSingletonPtr()->getDaemonDir(), j, ce );
-            Logger::getSingletonPtr()->log( "initialized daemons..." );
-        }
-        botThread.join();
-    }
-}
 
 void dropRights()
 {
@@ -152,9 +76,9 @@ int main( int argc, char **argv )
     if( config->getXmpp() )
     {
         std::thread srvThread{ ServerForge() };
+        std::thread newsThread{ NewsForge() };
 
-        startComm();
-
+        newsThread.detach();
         srvThread.join();
     }
     else
