@@ -1,5 +1,5 @@
-#ifndef DRAMAQUEEN_LOGGER_HPP
-#define DRAMAQUEEN_LOGGER_HPP
+#ifndef DRAMAQUEEN__HPP
+#define DRAMAQUEEN__HPP
 
 #include <iostream>
 #include <fstream>
@@ -8,22 +8,22 @@
 namespace Dramaqueen
 {
 
-class Logger
+class
 {
 
 public:
-    static Logger * getSingletonPtr();
-    static Logger * getSingletonPtr( std::string _logDest );
+    //static  * getSingletonPtr();
+    static  * getSingletonPtr();
 
     void log( std::string logMsg );
     void log( std::string logMsg, std::string extLogMsg );
 
 private:
-    static Logger* singletonPtr;
-    Logger();
-    Logger( std::string _logDest );
-    Logger( const Logger& );
-    ~Logger();
+    static * singletonPtr;
+    ();
+    ( std::string _logDest );
+    ( const & );
+    ~();
 
     static std::string logDest;
 

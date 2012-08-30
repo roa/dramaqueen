@@ -6,12 +6,11 @@
 #include <openssl/bio.h>
 #include <openssl/ssl.h>
 #include <openssl/err.h>
-
+#include <sstream>
 #include <sys/socket.h>
 #include <netdb.h>
 #include <fcntl.h>
 
-#include "../../logger/Logger.hpp"
 #include "../../config/Config.hpp"
 
 namespace Dramaqueen
@@ -36,8 +35,6 @@ private:
     BIO     *bio;
     SSL_CTX *ctx;
     //SSL     *ssl;
-
-    Logger  *logger;
 
     void initBaseClient();
     void initCTX();

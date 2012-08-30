@@ -4,7 +4,6 @@
 #include <iostream>
 #include <lua.hpp>
 
-#include "../../logger/Logger.hpp"
 #include "../../config/Config.hpp"
 #include "../client/BaseClient.hpp"
 
@@ -28,7 +27,6 @@ public:
     void observe();
 private:
 
-    Logger* logger;
     Client* j;
 
     std::string daemonDir;

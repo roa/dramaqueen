@@ -4,7 +4,6 @@
 #include <lua.hpp>
 #include <iostream>
 #include <vector>
-#include "../logger/Logger.hpp"
 
 namespace Dramaqueen
 {
@@ -37,7 +36,6 @@ private:
     void load( const char* fname );
 
     static Config* singletonPtr;
-    Logger *logger;
     lua_State *L;
 
     std::string user;

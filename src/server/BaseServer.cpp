@@ -5,7 +5,6 @@ namespace Dramaqueen
 
 BaseServer::BaseServer()
 {
-    logger = Logger::getSingletonPtr();
     initServer();
 }
 
@@ -93,7 +92,6 @@ void BaseServer::handleClient()
         }
         else
         {
-            logger->log( "did not find file: ", message );
         }
     }
     close( cfd );

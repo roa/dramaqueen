@@ -7,7 +7,6 @@
 #include <string.h>
 
 #include "config/Config.hpp"
-#include "logger/Logger.hpp"
 
 namespace Dramaqueen
 {

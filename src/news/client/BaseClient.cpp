@@ -6,7 +6,6 @@ namespace Dramaqueen
 BaseClient::BaseClient( std::string _host, std::string _command ) :
     host( _host ), command( _command )
 {
-    logger = Logger::getSingletonPtr();
     initBaseClient();
 }
 
@@ -75,7 +74,6 @@ void BaseClient::initBio()
 
     if( bio == NULL )
     {
-        logger->log( "could not initialize bio" );
     }
     /**
         TODO:
@@ -96,7 +94,6 @@ std::string BaseClient::connectToServer()
     std::stringstream answer;
     if( BIO_do_connect( bio ) <= 0 )
     {
-        logger->log( "connect failed" );
         /**
         TODO: remove this crap
 
@@ -107,7 +104,6 @@ std::string BaseClient::connectToServer()
 
         if ( !BIO_set_close( bio, BIO_CLOSE ) )
         {
-            logger->log( "setting close flag n BaseClient failed" );
         }
         answer  <<  std::endl << intro()
                 << "Could not connect to server: "
@@ -122,7 +118,6 @@ std::string BaseClient::sendToServer()
 
     if( BIO_write( bio, command.c_str(), command.size() ) <= -1 )
     {
-        logger->log( "send to server failed: ", host );
         answer  << std::endl << intro()
                 << "send to server "
                 << host

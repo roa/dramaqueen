@@ -9,7 +9,6 @@
 #include "bot/Bot.hpp"
 #include "daemon/DaemonForge.hpp"
 #include "../config/Config.hpp"
-#include "../logger/Logger.hpp"
 
 namespace Dramaqueen
 {
@@ -29,7 +28,6 @@ private:
     Client* j;
     ConnectionError* ce;
     Bot* bot;
-    Logger* logger;
 
     void initNews();
     void initDaemonForge( std::string daemonDir, Client* _j, ConnectionError* ce );

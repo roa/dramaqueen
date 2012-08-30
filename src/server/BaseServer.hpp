@@ -10,9 +10,8 @@
 #include <iostream>
 #include <errno.h>
 #include <sstream>
-
+#include <fstream>
 #include "../config/Config.hpp"
-#include "../logger/Logger.hpp"
 
 namespace Dramaqueen
 {
@@ -28,8 +27,6 @@ private:
     BIO *abio;
     BIO *client;
     SSL *ssl;
-
-    Logger* logger;
 
     void initServer();
     void handleClient();

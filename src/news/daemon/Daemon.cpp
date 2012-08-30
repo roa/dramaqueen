@@ -7,7 +7,6 @@ Daemon::Daemon( std::string _daemonName, Client* _j, ConnectionError* _ce ) : j(
 {
     daemonDir = Config::getSingletonPtr()->getDaemonDir();
     shouldRun = true;
-    logger = Logger::getSingletonPtr();
     load();
 }
 
@@ -24,22 +23,19 @@ void Daemon::load()
 
     if( luaL_loadfile( L, script.str().c_str() ) || lua_pcall( L, 0, 0, 0) )
     {
-        logger->log( "Could not load daemon config file: ", script.str().c_str() );
-        logger->log( "lua error message:", lua_tostring( L, 1 ) );
+
         shouldRun = false;
     }
 
     lua_getglobal( L, "checkTime" );
     if( !lua_isnumber( L, 1 ) )
     {
-        logger->log( "checkTime is not a number" );
         shouldRun = false;
     }
     else
     {
         checkTime = lua_tointeger( L, 1 );
         script << " to " << checkTime;
-        logger->log( "set checktime for", script.str().c_str() );
     }
 
     lua_pop( L, 1 );
@@ -47,13 +43,11 @@ void Daemon::load()
     lua_getglobal( L, "script" );
     if( !lua_isstring( L, 1 ) )
     {
-        logger->log( "script is not a number" );
         shouldRun = false;
     }
     else
     {
         scriptName = lua_tostring( L, 1 );
-        logger->log( "set scriptName for daemon to ", scriptName );
     }
 
     lua_pop( L, 1 );
@@ -61,7 +55,6 @@ void Daemon::load()
     lua_getglobal( L, "recipients" );
     if( !lua_istable( L, 1 ) )
     {
-        logger->log( "recipients is not a table for daemon: ", daemonName );
         shouldRun = false;
     }
     else
@@ -77,7 +70,6 @@ void Daemon::load()
 
     if( recipients.size() == 0 )
     {
-        logger->log( "you must specify at least one recipient. cannot run daemon: ", daemonName );
         shouldRun = false;
     }
 
@@ -86,7 +78,6 @@ void Daemon::load()
     lua_getglobal( L, "hosts" );
     if( !lua_istable( L, 1 ) )
     {
-        logger->log( "hosts is not a table for daemon: ", daemonName );
         shouldRun = false;
     }
     else
@@ -102,7 +93,6 @@ void Daemon::load()
 
     if( hosts.size() == 0 )
     {
-        logger->log( "you must specify at least one host. cannot run daemon: ", daemonName );
         shouldRun = false;
     }
 

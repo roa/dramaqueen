@@ -4,7 +4,6 @@
 #include "Helper.hpp"
 #include "news/NewsForge.hpp"
 #include "server/ServerForge.hpp"
-#include "logger/Logger.hpp"
 #include "config/Config.hpp"
 
 using namespace Dramaqueen;
@@ -50,7 +49,6 @@ int main( int argc, char **argv )
         }
     }
 
-    Logger::getSingletonPtr( logDest )->log( "initialized dramaqueen...");
     Config* config = Config::getSingletonPtr( confFile );
 
     Helper::dropPrivs();
