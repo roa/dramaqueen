@@ -104,6 +104,4 @@ void NewsForge::initNews()
     }
 }
 
-
-
 }

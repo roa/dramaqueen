@@ -35,9 +35,9 @@ OBJDIR_RELEASE = obj/Release
 DEP_RELEASE = 
 OUT_RELEASE = bin/Release/dramaqueen
 
-OBJ_DEBUG = $(OBJDIR_DEBUG)/src/news/client/BaseClient.o $(OBJDIR_DEBUG)/src/server/ServerForge.o $(OBJDIR_DEBUG)/src/server/BaseServer.o $(OBJDIR_DEBUG)/src/news/daemon/DaemonForge.o $(OBJDIR_DEBUG)/src/news/daemon/Daemon.o $(OBJDIR_DEBUG)/src/Helper.o $(OBJDIR_DEBUG)/src/news/bot/Bot.o $(OBJDIR_DEBUG)/src/news/NewsForge.o $(OBJDIR_DEBUG)/src/main.o $(OBJDIR_DEBUG)/src/config/Config.o
+OBJ_DEBUG = $(OBJDIR_DEBUG)/src/news/client/BaseClient.o $(OBJDIR_DEBUG)/src/server/ServerForge.o $(OBJDIR_DEBUG)/src/server/BaseServer.o $(OBJDIR_DEBUG)/src/news/daemon/DaemonForge.o $(OBJDIR_DEBUG)/src/news/daemon/Daemon.o $(OBJDIR_DEBUG)/src/config/Config.o $(OBJDIR_DEBUG)/src/news/bot/Bot.o $(OBJDIR_DEBUG)/src/news/NewsForge.o $(OBJDIR_DEBUG)/src/main.o $(OBJDIR_DEBUG)/src/helper/Helper.o
 
-OBJ_RELEASE = $(OBJDIR_RELEASE)/src/news/client/BaseClient.o $(OBJDIR_RELEASE)/src/server/ServerForge.o $(OBJDIR_RELEASE)/src/server/BaseServer.o $(OBJDIR_RELEASE)/src/news/daemon/DaemonForge.o $(OBJDIR_RELEASE)/src/news/daemon/Daemon.o $(OBJDIR_RELEASE)/src/Helper.o $(OBJDIR_RELEASE)/src/news/bot/Bot.o $(OBJDIR_RELEASE)/src/news/NewsForge.o $(OBJDIR_RELEASE)/src/main.o $(OBJDIR_RELEASE)/src/config/Config.o
+OBJ_RELEASE = $(OBJDIR_RELEASE)/src/news/client/BaseClient.o $(OBJDIR_RELEASE)/src/server/ServerForge.o $(OBJDIR_RELEASE)/src/server/BaseServer.o $(OBJDIR_RELEASE)/src/news/daemon/DaemonForge.o $(OBJDIR_RELEASE)/src/news/daemon/Daemon.o $(OBJDIR_RELEASE)/src/config/Config.o $(OBJDIR_RELEASE)/src/news/bot/Bot.o $(OBJDIR_RELEASE)/src/news/NewsForge.o $(OBJDIR_RELEASE)/src/main.o $(OBJDIR_RELEASE)/src/helper/Helper.o
 
 all: debug release
 
@@ -48,10 +48,11 @@ before_debug:
 	test -d $(OBJDIR_DEBUG)/src/news/client || mkdir -p $(OBJDIR_DEBUG)/src/news/client
 	test -d $(OBJDIR_DEBUG)/src/server || mkdir -p $(OBJDIR_DEBUG)/src/server
 	test -d $(OBJDIR_DEBUG)/src/news/daemon || mkdir -p $(OBJDIR_DEBUG)/src/news/daemon
-	test -d $(OBJDIR_DEBUG)/src || mkdir -p $(OBJDIR_DEBUG)/src
+	test -d $(OBJDIR_DEBUG)/src/config || mkdir -p $(OBJDIR_DEBUG)/src/config
 	test -d $(OBJDIR_DEBUG)/src/news/bot || mkdir -p $(OBJDIR_DEBUG)/src/news/bot
 	test -d $(OBJDIR_DEBUG)/src/news || mkdir -p $(OBJDIR_DEBUG)/src/news
-	test -d $(OBJDIR_DEBUG)/src/config || mkdir -p $(OBJDIR_DEBUG)/src/config
+	test -d $(OBJDIR_DEBUG)/src || mkdir -p $(OBJDIR_DEBUG)/src
+	test -d $(OBJDIR_DEBUG)/src/helper || mkdir -p $(OBJDIR_DEBUG)/src/helper
 
 after_debug: 
 
@@ -75,8 +76,8 @@ $(OBJDIR_DEBUG)/src/news/daemon/DaemonForge.o: src/news/daemon/DaemonForge.cpp
 $(OBJDIR_DEBUG)/src/news/daemon/Daemon.o: src/news/daemon/Daemon.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/news/daemon/Daemon.cpp -o $(OBJDIR_DEBUG)/src/news/daemon/Daemon.o
 
-$(OBJDIR_DEBUG)/src/Helper.o: src/Helper.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Helper.cpp -o $(OBJDIR_DEBUG)/src/Helper.o
+$(OBJDIR_DEBUG)/src/config/Config.o: src/config/Config.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/config/Config.cpp -o $(OBJDIR_DEBUG)/src/config/Config.o
 
 $(OBJDIR_DEBUG)/src/news/bot/Bot.o: src/news/bot/Bot.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/news/bot/Bot.cpp -o $(OBJDIR_DEBUG)/src/news/bot/Bot.o
@@ -87,8 +88,8 @@ $(OBJDIR_DEBUG)/src/news/NewsForge.o: src/news/NewsForge.cpp
 $(OBJDIR_DEBUG)/src/main.o: src/main.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/main.cpp -o $(OBJDIR_DEBUG)/src/main.o
 
-$(OBJDIR_DEBUG)/src/config/Config.o: src/config/Config.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/config/Config.cpp -o $(OBJDIR_DEBUG)/src/config/Config.o
+$(OBJDIR_DEBUG)/src/helper/Helper.o: src/helper/Helper.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/helper/Helper.cpp -o $(OBJDIR_DEBUG)/src/helper/Helper.o
 
 clean_debug: 
 	rm -f $(OBJ_DEBUG) $(OUT_DEBUG)
@@ -96,20 +97,22 @@ clean_debug:
 	rm -rf $(OBJDIR_DEBUG)/src/news/client
 	rm -rf $(OBJDIR_DEBUG)/src/server
 	rm -rf $(OBJDIR_DEBUG)/src/news/daemon
-	rm -rf $(OBJDIR_DEBUG)/src
+	rm -rf $(OBJDIR_DEBUG)/src/config
 	rm -rf $(OBJDIR_DEBUG)/src/news/bot
 	rm -rf $(OBJDIR_DEBUG)/src/news
-	rm -rf $(OBJDIR_DEBUG)/src/config
+	rm -rf $(OBJDIR_DEBUG)/src
+	rm -rf $(OBJDIR_DEBUG)/src/helper
 
 before_release: 
 	test -d bin/Release || mkdir -p bin/Release
 	test -d $(OBJDIR_RELEASE)/src/news/client || mkdir -p $(OBJDIR_RELEASE)/src/news/client
 	test -d $(OBJDIR_RELEASE)/src/server || mkdir -p $(OBJDIR_RELEASE)/src/server
 	test -d $(OBJDIR_RELEASE)/src/news/daemon || mkdir -p $(OBJDIR_RELEASE)/src/news/daemon
-	test -d $(OBJDIR_RELEASE)/src || mkdir -p $(OBJDIR_RELEASE)/src
+	test -d $(OBJDIR_RELEASE)/src/config || mkdir -p $(OBJDIR_RELEASE)/src/config
 	test -d $(OBJDIR_RELEASE)/src/news/bot || mkdir -p $(OBJDIR_RELEASE)/src/news/bot
 	test -d $(OBJDIR_RELEASE)/src/news || mkdir -p $(OBJDIR_RELEASE)/src/news
-	test -d $(OBJDIR_RELEASE)/src/config || mkdir -p $(OBJDIR_RELEASE)/src/config
+	test -d $(OBJDIR_RELEASE)/src || mkdir -p $(OBJDIR_RELEASE)/src
+	test -d $(OBJDIR_RELEASE)/src/helper || mkdir -p $(OBJDIR_RELEASE)/src/helper
 
 after_release: 
 
@@ -133,8 +136,8 @@ $(OBJDIR_RELEASE)/src/news/daemon/DaemonForge.o: src/news/daemon/DaemonForge.cpp
 $(OBJDIR_RELEASE)/src/news/daemon/Daemon.o: src/news/daemon/Daemon.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/news/daemon/Daemon.cpp -o $(OBJDIR_RELEASE)/src/news/daemon/Daemon.o
 
-$(OBJDIR_RELEASE)/src/Helper.o: src/Helper.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Helper.cpp -o $(OBJDIR_RELEASE)/src/Helper.o
+$(OBJDIR_RELEASE)/src/config/Config.o: src/config/Config.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/config/Config.cpp -o $(OBJDIR_RELEASE)/src/config/Config.o
 
 $(OBJDIR_RELEASE)/src/news/bot/Bot.o: src/news/bot/Bot.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/news/bot/Bot.cpp -o $(OBJDIR_RELEASE)/src/news/bot/Bot.o
@@ -145,8 +148,8 @@ $(OBJDIR_RELEASE)/src/news/NewsForge.o: src/news/NewsForge.cpp
 $(OBJDIR_RELEASE)/src/main.o: src/main.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/main.cpp -o $(OBJDIR_RELEASE)/src/main.o
 
-$(OBJDIR_RELEASE)/src/config/Config.o: src/config/Config.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/config/Config.cpp -o $(OBJDIR_RELEASE)/src/config/Config.o
+$(OBJDIR_RELEASE)/src/helper/Helper.o: src/helper/Helper.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/helper/Helper.cpp -o $(OBJDIR_RELEASE)/src/helper/Helper.o
 
 clean_release: 
 	rm -f $(OBJ_RELEASE) $(OUT_RELEASE)
@@ -154,10 +157,11 @@ clean_release:
 	rm -rf $(OBJDIR_RELEASE)/src/news/client
 	rm -rf $(OBJDIR_RELEASE)/src/server
 	rm -rf $(OBJDIR_RELEASE)/src/news/daemon
-	rm -rf $(OBJDIR_RELEASE)/src
+	rm -rf $(OBJDIR_RELEASE)/src/config
 	rm -rf $(OBJDIR_RELEASE)/src/news/bot
 	rm -rf $(OBJDIR_RELEASE)/src/news
-	rm -rf $(OBJDIR_RELEASE)/src/config
+	rm -rf $(OBJDIR_RELEASE)/src
+	rm -rf $(OBJDIR_RELEASE)/src/helper
 
 .PHONY: before_debug after_debug clean_debug before_release after_release clean_release
 
