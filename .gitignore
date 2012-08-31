@@ -2,6 +2,7 @@ log
 bin
 obj
 *.cbp
+*.cbpTemp
 *.depend
 *.layout
 daemon/zabbix.lua
