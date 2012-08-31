@@ -4,14 +4,17 @@ dramaqueen
 # installation
 
 dependencies:
+
 	openssl>=1.0.0
 	lua>=5.1
 	gloox>=1.0
 
 clone repo:
+	
 	git clone git://github.com/roa/dramaqueen.git
 
 then compile:
+	
 	make
 
 that was easy, wasn't it?
@@ -21,6 +24,7 @@ if you are on gentoo, you can use the ebuild provided with the source.
 # main configuration
 
 the main config file is specified with the -c switch
+	
 	dramaqueen -c /path/to/config/init.lua
 
 you can name the main config as you wish. a full commented example
