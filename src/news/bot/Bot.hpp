@@ -1,3 +1,10 @@
+/**
+    the bot provides the xmpp interface.
+    it get all authentication details from the config singleton.
+    the xmpp interface is used a notification system and to
+    trigger commands on connected nodes.
+**/
+
 #ifndef DRAMAQUEEN_BOT_HPP
 #define DRAMAQUEEN_BOT_HPP
 
@@ -24,9 +31,9 @@ namespace Dramaqueen
 
 class Bot : public MessageHandler, LogHandler, ConnectionListener
 {
+
 public:
     Bot();
-
     ~Bot();
 
     void connectToXMPP();
@@ -45,6 +52,7 @@ private:
    virtual void handleLog( LogLevel level, LogArea area, const std::string& message );
 
    std::string contactHosts( std::string command );
+
 };
 
 }

@@ -3,7 +3,7 @@
 namespace Dramaqueen
 {
 
-Daemon::Daemon( std::string _daemonName, Client* _j, ConnectionError* _ce ) : j( _j ), daemonName( _daemonName ), ce( _ce )
+Daemon::Daemon( std::string _daemonName, Client* _j, ConnectionError* _ce ) : j( _j ), ce( _ce ), daemonName( _daemonName )
 {
     daemonDir = Config::getSingletonPtr()->getDaemonDir();
     shouldRun = true;

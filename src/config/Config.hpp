@@ -1,3 +1,12 @@
+/**
+    the config object loads the config specified as cli arg.
+    the config is a lua config file.
+    after all value have been initialized,
+    the config object supplies several getter on the public interface.
+
+    the config object is a global unique object ( singletonobject ).
+**/
+
 #ifndef DRAMAQUEEN_CONFIG_HPP
 #define DRAMAQUEEN_CONFIG_HPP
 

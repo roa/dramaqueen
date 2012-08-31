@@ -7,7 +7,6 @@
 #include "config/Config.hpp"
 
 using namespace Dramaqueen;
-using namespace gloox;
 
 int main( int argc, char **argv )
 {

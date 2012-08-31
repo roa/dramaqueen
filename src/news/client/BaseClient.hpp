@@ -1,3 +1,11 @@
+/**
+    the baseclient is called to connect to dramaqueen nodes to execute
+    commands invoked via daemons or xmpp interface.
+    after that the baseclient reads the output from the node and
+    delivers it to the main-dramaqueen node.
+    to use baseclients, you have to enable the xmpp interface via config.
+**/
+
 #ifndef DRAMAQUEEN_CLIENT_HPP
 #define DRAMAQUEEN_CLIENT_HPP
 
@@ -19,6 +27,7 @@ namespace Dramaqueen
 
 class BaseClient
 {
+
 public:
     BaseClient( std::string _host, std::string _command );
     ~BaseClient();

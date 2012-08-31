@@ -1,3 +1,12 @@
+/**
+    the newsforge object is supposed to initialize the
+    complete message system( bot, daemonforge... later more ;> ).
+    it initialized the bot in a separate thread and keeps track of its status.
+    if a bot dies, it tries to spawn a new one. also it spawns a daemonforge for
+    every daemon config file it can find. daemonforges can track bot status via
+    messenger and connectionerror objects. newsforge keeps them updated to ensure,
+    that daemons can detect failures.
+**/
 #ifndef DRAMAQUEEN_NEWSFORGE_HPP
 #define DRAMAQUEEN_NEWSFORGE_HPP
 
@@ -34,6 +43,7 @@ private:
     void initBot();
     void startBot();
     void destroyBot();
+
 };
 
 }

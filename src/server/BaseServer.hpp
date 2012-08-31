@@ -1,3 +1,12 @@
+/**
+    the baseserver object is started via the serverforge object. it is started in a
+    separate thread an shares nothing with the messagesystem initialized by the newsforge.
+    if dramaqueen is started with xmpp flag as false, the server thread is the only dramaqueen thread.
+    it answers requests from baseclients. you have to ensure, that clients and all nodes share the same
+    certs.
+    all communication with clients is encrypted with the sslv3 protocoll. the server denies unencrypted
+    communication.
+**/
 #ifndef DRAMAQUEEN_BASESERVER_HPP
 #define DRAMAQUEEN_BASESERVER_HPP
 
@@ -18,6 +27,7 @@ namespace Dramaqueen
 
 class BaseServer
 {
+
 private:
     SSL_CTX* ctx;
     std::string cert;
