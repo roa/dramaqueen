@@ -24,6 +24,7 @@ void Bot::connectToXMPP()
         {
           ce = j->recv();
         }
+        Helper::log( "Bot: an error occured: shutting down bot" );
     }
 }
 
@@ -42,10 +43,11 @@ void Bot::initXMPP()
     JID jid( Config::getSingletonPtr()->getXmppUser() );
 
     j = new Client( jid, Config::getSingletonPtr()->getXmppPasswd() );
-
     j->registerConnectionListener( this );
     j->registerMessageHandler( this );
     j->logInstance().registerLogHandler( LogLevelDebug, LogAreaAll, this );
+
+    Helper::log( "initialized bot..." );
 }
 
 void Bot::onConnect()

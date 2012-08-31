@@ -9,6 +9,7 @@
 #include "bot/Bot.hpp"
 #include "daemon/DaemonForge.hpp"
 #include "../config/Config.hpp"
+#include "../helper/Helper.hpp"
 
 namespace Dramaqueen
 {
@@ -21,7 +22,6 @@ public:
     void operator() ();
     explicit NewsForge();
     ~NewsForge();
-    //NewsForge( NewsForge const & );
 
 private:
 

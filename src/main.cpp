@@ -1,7 +1,7 @@
 #include <iostream>
 #include <thread>
 
-#include "Helper.hpp"
+#include "helper/Helper.hpp"
 #include "news/NewsForge.hpp"
 #include "server/ServerForge.hpp"
 #include "config/Config.hpp"
@@ -12,12 +12,11 @@ using namespace gloox;
 int main( int argc, char **argv )
 {
     int opt = 0;
-    std::string logDest  = "";
     std::string confFile = "";
 
-    if( argc < 3 )
+    if( argc < 2 )
     {
-        std::cerr << "need log and config" << std::endl;
+        std::cerr << "need config" << std::endl;
         /**
             TODO:
             more informative help
@@ -25,18 +24,13 @@ int main( int argc, char **argv )
         exit( 0 );
     }
 
-    while( ( opt = getopt( argc, argv, "c:l:") ) != -1)
+    while( ( opt = getopt( argc, argv, "c:") ) != -1)
     {
         switch( opt )
         {
             case 'c':
             {
                 confFile = optarg;
-                break;
-            }
-            case 'l':
-            {
-                logDest = optarg;
                 break;
             }
             default:

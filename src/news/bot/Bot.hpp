@@ -15,6 +15,7 @@
 
 #include "../../config/Config.hpp"
 #include "../client/BaseClient.hpp"
+#include "../../helper/Helper.hpp"
 
 using namespace gloox;
 

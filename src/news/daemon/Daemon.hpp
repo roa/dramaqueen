@@ -6,6 +6,7 @@
 
 #include "../../config/Config.hpp"
 #include "../client/BaseClient.hpp"
+#include "../../helper/Helper.hpp"
 
 #include <gloox/client.h>
 #include <gloox/loghandler.h>

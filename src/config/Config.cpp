@@ -175,6 +175,19 @@ void Config::load( const char* fname )
     }
     lua_pop( L, 1 );
 
+    /**********************
+     *  load logDest      *
+     **********************/
+    lua_getglobal( L, "logDest" );
+    if( !lua_isstring( L, 1 ) )
+    {
+    }
+    else
+    {
+        logDest = lua_tostring( L, 1 );
+    }
+    lua_pop( L, 1 );
+
      /**********************
      *  load foreign Hosts *
      **********************/
@@ -197,7 +210,6 @@ void Config::load( const char* fname )
             std::string foreignHost = *it;
         }
     }
-
 
     lua_close( L );
 }
@@ -250,6 +262,11 @@ std::string Config::getDaemonDir()
 std::string Config::getScriptDir()
 {
     return scriptDir;
+}
+
+std::string Config::getLogDest()
+{
+    return logDest;
 }
 
 std::vector<std::string> * Config::getForeignHosts()

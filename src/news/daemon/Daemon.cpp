@@ -8,10 +8,12 @@ Daemon::Daemon( std::string _daemonName, Client* _j, ConnectionError* _ce ) : j(
     daemonDir = Config::getSingletonPtr()->getDaemonDir();
     shouldRun = true;
     load();
+    Helper::log( daemonName, ": initialized Daemon..." );
 }
 
 Daemon::~Daemon()
 {
+    Helper::log( daemonName, ": shut down Daemon" );
 }
 
 void Daemon::load()
@@ -30,11 +32,14 @@ void Daemon::load()
     if( !lua_isnumber( L, 1 ) )
     {
         shouldRun = false;
+        Helper::log( daemonName, ": checktime is not a valid value" );
     }
     else
     {
         checkTime = lua_tointeger( L, 1 );
-        script << " to " << checkTime;
+        std::stringstream log;
+        log << checkTime;
+        Helper::log( daemonName, ": set checkTime to ", log.str() );
     }
 
     lua_pop( L, 1 );
@@ -43,10 +48,12 @@ void Daemon::load()
     if( !lua_isstring( L, 1 ) )
     {
         shouldRun = false;
+        Helper::log( daemonName, ": script is not a valid value" );
     }
     else
     {
         scriptName = lua_tostring( L, 1 );
+        Helper::log( daemonName, ": set script to ", scriptName );
     }
 
     lua_pop( L, 1 );
@@ -55,6 +62,7 @@ void Daemon::load()
     if( !lua_istable( L, 1 ) )
     {
         shouldRun = false;
+        Helper::log( daemonName, ": recipients is not a valid value" );
     }
     else
     {
@@ -62,7 +70,9 @@ void Daemon::load()
 
         while( lua_next( L, 1 ) != 0 )
         {
-            recipients.push_back( lua_tostring( L, -1 ) );
+            std::string recipient = lua_tostring( L, -1 );
+            recipients.push_back( recipient );
+            Helper::log( daemonName, ": added recipient", recipient );
             lua_pop( L, 1 );
         }
     }
@@ -70,6 +80,7 @@ void Daemon::load()
     if( recipients.size() == 0 )
     {
         shouldRun = false;
+        Helper::log( daemonName, ": no valid recipients found" );
     }
 
     lua_pop( L, 1 );
@@ -78,6 +89,7 @@ void Daemon::load()
     if( !lua_istable( L, 1 ) )
     {
         shouldRun = false;
+        Helper::log( daemonName, ": hosts is not a valid value" );
     }
     else
     {
@@ -85,7 +97,9 @@ void Daemon::load()
 
         while( lua_next( L, 1 ) != 0 )
         {
-            hosts.push_back( lua_tostring( L, -1 ) );
+            std::string host = lua_tostring( L, -1 );
+            hosts.push_back( host );
+            Helper::log( daemonName, ": added host", host );
             lua_pop( L, 1 );
         }
     }
@@ -93,6 +107,7 @@ void Daemon::load()
     if( hosts.size() == 0 )
     {
         shouldRun = false;
+        Helper::log( daemonName, ": no valid hosts found" );
     }
 
     lua_close( L );
@@ -106,13 +121,14 @@ void Daemon::observe()
 
         if( ! *ce == ConnNoError )
         {
+            Helper::log( daemonName, ": detected bot error - shutting down daemon" );
             break;
         }
         if( j == NULL )
         {
+            Helper::log( daemonName, ": detected bot error - shutting down daemon" );
             break;
         }
-
         Message::MessageType type = Message::MessageType::Chat;
         for( std::vector<std::string>::iterator it = recipients.begin(); it != recipients.end(); ++it )
         {
@@ -145,7 +161,11 @@ std::string Daemon::contactHosts( std::string command )
 std::string Daemon::executeScript( std::string script )
 {
     FILE* pipe = popen( script.c_str(), "r" );
-    if ( !pipe ) return "ERROR";
+    if ( !pipe )
+    {
+        Helper::log( daemonName, "broken pipe while executing script" );
+        return "ERROR";
+    }
     char buffer[128];
     std::string result = "";
     while( !feof( pipe ) )

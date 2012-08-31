@@ -12,6 +12,7 @@
 #include <fcntl.h>
 
 #include "../../config/Config.hpp"
+#include "../../helper/Helper.hpp"
 
 namespace Dramaqueen
 {
@@ -34,7 +35,6 @@ private:
 
     BIO     *bio;
     SSL_CTX *ctx;
-    //SSL     *ssl;
 
     void initBaseClient();
     void initCTX();

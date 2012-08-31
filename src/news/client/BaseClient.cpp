@@ -20,14 +20,15 @@ std::string BaseClient::run()
     response.append( connectToServer() );
     if( !response.empty() )
     {
+        Helper::log( "BaseClient: failed to connect to host", host );
         SSL_CTX_free( ctx );
         return response;
     }
     response.append( sendToServer() );
     if( !response.empty() )
     {
+        Helper::log( "BaseClient: failed to send to host", host );
         SSL_CTX_free( ctx );
-        //destroyBio();
         return response;
     }
     /**
@@ -46,10 +47,7 @@ std::string BaseClient::run()
 
 void BaseClient::initBaseClient()
 {
-    //ssl  = NULL;
-    //SSL_load_error_strings();
     SSL_library_init();
-    //ERR_load_BIO_strings();
     initCTX();
     initBio();
 }
@@ -74,18 +72,17 @@ void BaseClient::initBio()
 
     if( bio == NULL )
     {
+        Helper::log( "BaseClient: could not initialize bio to connect to", host );
     }
     /**
         TODO:
         check return values
     **/
-    //BIO_get_ssl( bio, ssl );
     BIO_set_conn_hostname( bio, ( char * )host.c_str() );
 }
 
 void BaseClient::destroyBio()
 {
-    //SSL_free( ssl );
     BIO_free_all( bio );
 }
 
@@ -104,6 +101,7 @@ std::string BaseClient::connectToServer()
 
         if ( !BIO_set_close( bio, BIO_CLOSE ) )
         {
+            Helper::log( "BaseClient: could not set BIO_CLOSE flag while shutting down connection to", host );
         }
         answer  <<  std::endl << intro()
                 << "Could not connect to server: "

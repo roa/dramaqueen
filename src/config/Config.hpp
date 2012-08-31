@@ -25,6 +25,7 @@ public:
     std::string getSSLKey();
     std::string getDaemonDir();
     std::string getScriptDir();
+    std::string getLogDest();
     std::vector<std::string> * getForeignHosts();
 
 private:
@@ -48,6 +49,7 @@ private:
     std::string sslKey;
     std::string daemonDir;
     std::string scriptDir;
+    std::string logDest;
     std::vector<std::string>* foreignHosts;
 
 };
