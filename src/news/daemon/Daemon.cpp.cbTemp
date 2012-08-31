@@ -12,6 +12,7 @@ Daemon::Daemon( std::string _daemonName, Client* _j, ConnectionError* _ce ) : j(
 
 Daemon::~Daemon()
 {
+    std::cout << "daemon dest" << std::endl;
 }
 
 void Daemon::load()
