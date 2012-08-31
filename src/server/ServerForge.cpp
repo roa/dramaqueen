@@ -5,13 +5,11 @@ namespace Dramaqueen
 
 void ServerForge::operator() () const
 {
-    /**
-        TODO:
-        add Logging!
-    **/
+    Helper::log( "initializing server..." );
     BaseServer *server;
     server = new BaseServer();
     server->run();
+    Helper::log( "server crashed or exited" );
     delete server;
 }
 

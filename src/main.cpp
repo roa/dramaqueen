@@ -15,11 +15,10 @@ int main( int argc, char **argv )
 
     if( argc < 2 )
     {
-        std::cerr << "need config" << std::endl;
-        /**
-            TODO:
-            more informative help
-        **/
+        std::cerr << "you need to specify a config file!"
+                  << std::endl
+                  << "dramaqueen -c /path/to/config.lua"
+                  << std::endl;
         exit( 0 );
     }
 
@@ -34,10 +33,7 @@ int main( int argc, char **argv )
             }
             default:
             {
-                /**
-                TODO:
-                do something useful
-                **/
+                abort();
             }
         }
     }

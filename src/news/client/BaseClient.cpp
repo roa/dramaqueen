@@ -4,7 +4,7 @@ namespace Dramaqueen
 {
 
 BaseClient::BaseClient( std::string _host, std::string _command ) :
-    host( _host ), command( _command )
+    host( _host ), command( _command ), shouldRun( true )
 {
     initBaseClient();
 }
@@ -16,6 +16,11 @@ BaseClient::~BaseClient()
 
 std::string BaseClient::run()
 {
+    if( ! shouldRun )
+    {
+        Helper::log( "BaseClient: canceling all actions due to previous errors" );
+        return "ERROR";
+    }
     std::string response;
     response.append( connectToServer() );
     if( !response.empty() )
@@ -31,10 +36,7 @@ std::string BaseClient::run()
         SSL_CTX_free( ctx );
         return response;
     }
-    /**
-        TODO:
-        add handling if returned message is empty
-    **/
+
     std::string recv = recvFromServer();
     if( !recv.empty() )
     {
@@ -54,16 +56,25 @@ void BaseClient::initBaseClient()
 
 void BaseClient::initCTX()
 {
-    /**
-        TODO:
-        check return values
-    **/
     ctx  = NULL;
     cert = Config::getSingletonPtr()->getSSLCert();
     key  = Config::getSingletonPtr()->getSSLKey();
     ctx = SSL_CTX_new(SSLv3_client_method());
-    SSL_CTX_use_certificate_file( ctx, cert.c_str(), SSL_FILETYPE_PEM );
-    SSL_CTX_use_PrivateKey_file( ctx, key.c_str(), SSL_FILETYPE_PEM );
+    if( ctx == NULL )
+    {
+        Helper::log( "BaseClient: failed to create new ctx object" );
+        shouldRun = false;
+    }
+    if( ! SSL_CTX_use_certificate_file( ctx, cert.c_str(), SSL_FILETYPE_PEM ) )
+    {
+        Helper::log( "BaseClient: failed to load cert file: ", cert );
+        shouldRun = false;
+    }
+    if( ! SSL_CTX_use_PrivateKey_file( ctx, key.c_str(), SSL_FILETYPE_PEM ) )
+    {
+        Helper::log( "BaseClient: failed to load key file: ", key );
+        shouldRun = false;
+    }
 }
 
 void BaseClient::initBio()
@@ -73,11 +84,8 @@ void BaseClient::initBio()
     if( bio == NULL )
     {
         Helper::log( "BaseClient: could not initialize bio to connect to", host );
+        shouldRun = false;
     }
-    /**
-        TODO:
-        check return values
-    **/
     BIO_set_conn_hostname( bio, ( char * )host.c_str() );
 }
 
@@ -91,14 +99,6 @@ std::string BaseClient::connectToServer()
     std::stringstream answer;
     if( BIO_do_connect( bio ) <= 0 )
     {
-        /**
-        TODO: remove this crap
-
-        FILE * mystream = fopen( "/tmp/rand", "w+");
-        fclose( mystream );
-        **/
-        ERR_print_errors_fp( stderr );
-
         if ( !BIO_set_close( bio, BIO_CLOSE ) )
         {
             Helper::log( "BaseClient: could not set BIO_CLOSE flag while shutting down connection to", host );

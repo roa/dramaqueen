@@ -45,6 +45,8 @@ private:
     BIO     *bio;
     SSL_CTX *ctx;
 
+    bool shouldRun;
+
     void initBaseClient();
     void initCTX();
     void initBio();

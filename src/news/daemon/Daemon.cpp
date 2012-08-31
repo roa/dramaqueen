@@ -138,7 +138,6 @@ void Daemon::observe()
             if( !content.empty() )
                 j->send( msg );
         }
-
     }
 }
 
@@ -156,25 +155,6 @@ std::string Daemon::contactHosts( std::string command )
         results.append( baseclient.run() );
     }
     return results;
-}
-
-std::string Daemon::executeScript( std::string script )
-{
-    FILE* pipe = popen( script.c_str(), "r" );
-    if ( !pipe )
-    {
-        Helper::log( daemonName, "broken pipe while executing script" );
-        return "ERROR";
-    }
-    char buffer[128];
-    std::string result = "";
-    while( !feof( pipe ) )
-    {
-        if( fgets( buffer, 128, pipe ) != NULL )
-            result += buffer;
-    }
-    pclose( pipe );
-    return result;
 }
 
 }

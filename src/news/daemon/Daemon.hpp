@@ -69,7 +69,6 @@ private:
     bool shouldRun;
 
     void load();
-    std::string executeScript( std::string script );
     std::string contactHosts( std::string command );
 
 };

@@ -9,6 +9,7 @@
 #define DRAMAQUEEN_SERVERFORGE_HPP
 
 #include "BaseServer.hpp"
+#include "../helper/Helper.hpp"
 
 namespace Dramaqueen
 {
