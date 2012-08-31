@@ -51,7 +51,7 @@ for config files can be found in Daemon.hpp headerfile.
 
 you need to install at least one dramaqueen node with
 enabled xmpp flag. then you can use the xmpp interface
-to give commands to all other node or you can install
+to give commands to all other nodes or you can install
 daemons to get regularly updates from your nodes.
 As you are expected to create your own openssl certs,
 you must distribute them on all nodes.
