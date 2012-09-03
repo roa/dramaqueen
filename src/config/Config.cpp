@@ -43,8 +43,8 @@ void Config::load( const char* fname )
     L = luaL_newstate();
     if( luaL_loadfile( L, fname ) || lua_pcall( L, 0, 0, 0 ) )
     {
+        std::cerr << "could not load config file" << std::endl;
     }
-
     /**********************
      *    load user       *
      **********************/

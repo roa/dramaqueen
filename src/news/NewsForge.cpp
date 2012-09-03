@@ -80,7 +80,7 @@ void NewsForge::initNews()
         bool initDaemon = false;
         initBot();
         std::thread botThread( &NewsForge::startBot, *this );
-        while( true )
+        while( i++ < 3 )
         {
             sleep( 5 );
 
@@ -90,10 +90,6 @@ void NewsForge::initNews()
                 break;
             }
 
-            if( i++ > 3 )
-            {
-                break;
-            }
         }
         if( initDaemon )
         {
