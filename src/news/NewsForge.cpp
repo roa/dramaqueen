@@ -22,6 +22,7 @@ void NewsForge::operator() ()
 void NewsForge::initDaemonForge( std::string daemonDir, Client* _j, ConnectionError* ce )
 {
     DIR* dp = opendir( daemonDir.c_str() );
+    std::cout << daemonDir << std::endl;
     while( true )
     {
         struct dirent* dir = readdir( dp );

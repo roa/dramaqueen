@@ -49,7 +49,6 @@ std::string BaseClient::run()
 
 void BaseClient::initBaseClient()
 {
-    SSL_library_init();
     initCTX();
     initBio();
 }
