@@ -12,12 +12,12 @@ group = "dramaqueen"
 
 -- sslCert: the openssl cert needed by the server
 -- you will have to create that on your own
--- you will have to care to deploy it to all dramaqueen servers
+-- you will have to deploy it to all dramaqueen servers
 sslCert = "/home/roa/programming/examples/ssl_conn/ssl_example/servercert.pem"
 
 -- sslKey: the openssl key needed by the server
 -- you will have to create that on your own
--- you will have to care to deploy it to all dramaqueen servers
+-- you will have to deploy it to all dramaqueen servers
 sslKey = "/home/roa/programming/examples/ssl_conn/ssl_example/private.key"
 
 -- xmpp: this flag indicates, whether you want to use the messageSystem as well
