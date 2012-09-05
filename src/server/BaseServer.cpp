@@ -86,13 +86,6 @@ void BaseServer::handleClient()
                     std::cout << SSL_get_error( ssl, w ) << std::endl;
                 }
             }
-            else
-            {
-                close( cfd );
-            }
-        }
-        else
-        {
         }
     }
     close( cfd );
@@ -129,7 +122,6 @@ void BaseServer::run()
             SSL_set_bio( ssl, client, client );
             SSL_accept( ssl );
             handleClient();
-            SSL_shutdown(ssl);
             SSL_free(ssl);
         }
     }
