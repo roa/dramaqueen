@@ -130,13 +130,14 @@ void Daemon::observe()
             break;
         }
         Message::MessageType type = Message::MessageType::Chat;
+        std::string content = contactHosts( scriptName );
         for( std::vector<std::string>::iterator it = recipients.begin(); it != recipients.end(); ++it )
         {
             std::string recipient = *it;
-            std::string content = contactHosts( scriptName );
             Message msg( type, recipient, content );
             if( !content.empty() )
                 j->send( msg );
+            std::cout << recipient << std::endl;
         }
     }
 }
