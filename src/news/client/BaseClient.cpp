@@ -27,14 +27,12 @@ std::string BaseClient::run()
     if( !response.empty() )
     {
         Helper::log( "BaseClient: failed to connect to host", host );
-        SSL_CTX_free( ctx );
         return response;
     }
     response.append( sendToServer() );
     if( !response.empty() )
     {
         Helper::log( "BaseClient: failed to send to host", host );
-        SSL_CTX_free( ctx );
         return response;
     }
 
@@ -44,7 +42,6 @@ std::string BaseClient::run()
         response.append( intro() );
         response.append( recv.c_str() );
     }
-    SSL_CTX_free( ctx );
     return response;
 }
 
@@ -91,6 +88,7 @@ void BaseClient::initBio()
 
 void BaseClient::destroyBio()
 {
+    SSL_CTX_free( ctx );
     BIO_free_all( bio );
 }
 
