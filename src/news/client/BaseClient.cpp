@@ -11,6 +11,7 @@ BaseClient::BaseClient( std::string _host, std::string _command ) :
 
 BaseClient::~BaseClient()
 {
+    ERR_remove_state( 0 );
     destroyBio();
 }
 

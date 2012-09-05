@@ -10,6 +10,7 @@ BaseServer::BaseServer()
 
 BaseServer::~BaseServer()
 {
+    ERR_remove_state( 0 );
     SSL_CTX_free( ctx );
 }
 

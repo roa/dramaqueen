@@ -11,6 +11,7 @@
 #define DRAMAQUEEN_BASESERVER_HPP
 
 #include <openssl/bio.h>
+#include <openssl/err.h>
 #include <openssl/ssl.h>
 #include <stdlib.h>
 #include <sys/time.h>
