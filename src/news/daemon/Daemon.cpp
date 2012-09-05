@@ -137,7 +137,6 @@ void Daemon::observe()
             Message msg( type, recipient, content );
             if( !content.empty() )
                 j->send( msg );
-            std::cout << recipient << std::endl;
         }
     }
 }

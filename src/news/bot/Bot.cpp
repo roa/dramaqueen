@@ -14,6 +14,7 @@ Bot::Bot()
 Bot::~Bot()
 {
     delete j;
+    Helper::log( "Bot: an error occured: shutting down bot" );
 }
 
 void Bot::connectToXMPP()
@@ -24,7 +25,6 @@ void Bot::connectToXMPP()
         {
           ce = j->recv();
         }
-        Helper::log( "Bot: an error occured: shutting down bot" );
     }
 }
 
