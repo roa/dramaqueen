@@ -10,7 +10,6 @@ BaseServer::BaseServer()
 
 BaseServer::~BaseServer()
 {
-    ERR_remove_state( 0 );
     SSL_CTX_free( ctx );
 }
 
@@ -88,6 +87,7 @@ void BaseServer::handleClient()
             }
         }
     }
+    ERR_remove_state( 0 );
     close( cfd );
 }
 
