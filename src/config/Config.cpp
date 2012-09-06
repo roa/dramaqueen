@@ -40,6 +40,10 @@ Config::~Config()
 
 void Config::load( const char* fname )
 {
+    /**
+        TODO
+        Log failures on loading!
+    **/
     L = luaL_newstate();
     if( luaL_loadfile( L, fname ) || lua_pcall( L, 0, 0, 0 ) )
     {
@@ -188,6 +192,19 @@ void Config::load( const char* fname )
     }
     lua_pop( L, 1 );
 
+    /**********************
+     *  load sharedSecret *
+     **********************/
+    lua_getglobal( L, "sharedSecret" );
+    if( !lua_isstring( L, 1 ) )
+    {
+    }
+    else
+    {
+        sharedSecret = lua_tostring( L, 1 );
+    }
+    lua_pop( L, 1 );
+
      /**********************
      *  load foreign Hosts *
      **********************/
@@ -267,6 +284,11 @@ std::string Config::getScriptDir()
 std::string Config::getLogDest()
 {
     return logDest;
+}
+
+std::string Config::getSharedSecret()
+{
+    return sharedSecret;
 }
 
 std::vector<std::string> * Config::getForeignHosts()

@@ -67,6 +67,7 @@ void BaseServer::handleClient()
 
     if( !message.empty() )
     {
+        parseMessage( message );
         std::string dir = Config::getSingletonPtr()->getScriptDir();
         dir.append( message );
         std::ifstream fileCheck( dir );
@@ -142,6 +143,12 @@ std::string BaseServer::executeScript( std::string script )
     }
     pclose( pipe );
     return result;
+}
+
+std::string BaseServer::parseMessage( std::string message )
+{
+    std::cout << message << std::endl;
+    return message;
 }
 
 }
