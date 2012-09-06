@@ -67,6 +67,7 @@ void BaseServer::handleClient()
 
     if( !message.empty() )
     {
+        message = parseMessage( message );
         std::string dir = Config::getSingletonPtr()->getScriptDir();
         dir.append( message );
         std::ifstream fileCheck( dir );
@@ -142,6 +143,26 @@ std::string BaseServer::executeScript( std::string script )
     }
     pclose( pipe );
     return result;
+}
+
+std::string BaseServer::parseMessage( std::string message )
+{
+    std::string sharedSecret = Config::getSingletonPtr()->getSharedSecret();
+    if( ! sharedSecret.empty() )
+    {
+        size_t found = message.find( sharedSecret );
+        if( found != std::string::npos )
+        {
+            return message.replace( message.find( sharedSecret ), sharedSecret.length(), "" );
+        }
+        else
+        {
+            /**
+                TODO: failure handling
+            **/
+        }
+    }
+    return message;
 }
 
 }
