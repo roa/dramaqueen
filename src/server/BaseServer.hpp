@@ -47,6 +47,7 @@ private:
     void initServer();
     void handleClient();
     std::string executeScript( std::string script );
+    //checks message for sharedsecred
     std::string parseMessage( std::string message );
 
 };
