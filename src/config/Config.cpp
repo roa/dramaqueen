@@ -29,13 +29,15 @@ Config::Config()
 
 Config::Config( std::string config )
 {
-    foreignHosts = new std::vector<std::string>;
+    foreignHosts    = new std::vector<std::string>;
+    authorizedUsers = new std::vector<std::string>;
     load( config.c_str() );
 }
 
 Config::~Config()
 {
     delete foreignHosts;
+    delete authorizedUsers;
 }
 
 void Config::load( const char* fname )
@@ -205,9 +207,9 @@ void Config::load( const char* fname )
     }
     lua_pop( L, 1 );
 
-     /**********************
+    /***********************
      *  load foreign Hosts *
-     **********************/
+     ***********************/
     lua_getglobal( L, "foreignHosts" );
     if( !lua_istable( L, 1 ) )
     {
@@ -225,6 +227,29 @@ void Config::load( const char* fname )
         for( std::vector<std::string>::iterator it = foreignHosts->begin(); it != foreignHosts->end(); ++it )
         {
             std::string foreignHost = *it;
+        }
+    }
+
+    /***********************
+     *load authorizedUsers *
+     ***********************/
+    lua_getglobal( L, "authorizedUsers" );
+    if( !lua_istable( L, 1 ) )
+    {
+    }
+    else
+    {
+        lua_pushnil( L );
+
+        while( lua_next( L, 1 ) != 0 )
+        {
+            authorizedUsers->push_back( lua_tostring( L, -1 ) );
+            lua_pop( L, 1 );
+        }
+
+        for( std::vector<std::string>::iterator it = authorizedUsers->begin(); it != authorizedUsers->end(); ++it )
+        {
+            std::string authorizedUsers = *it;
         }
     }
 
