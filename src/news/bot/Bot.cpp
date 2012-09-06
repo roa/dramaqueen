@@ -67,12 +67,21 @@ bool Bot::onTLSConnect( const CertInfo& info )
 
 void Bot::handleMessage( const Message& stanza, MessageSession* session )
 {
-    if( !stanza.body().empty() )
+    if( stanza.body().empty() )
     {
-        Message::MessageType type = Message::MessageType::Chat;
+        return;
+    }
+    Message::MessageType type = Message::MessageType::Chat;
+
+    if( checkRecipient( stanza.from().bare() ) )
+    {
         Message msg( type, stanza.from(), contactHosts( stanza.body() ) );
         j->send( msg );
-
+    }
+    else
+    {
+        Message msg( type, stanza.from(), "You are not in the recipients list. Contact your admin." );
+        j->send( msg );
     }
 }
 
@@ -100,6 +109,11 @@ std::string Bot::contactHosts( std::string command )
         results.append( "no hits" );
     }
     return results;
+}
+
+bool Bot::checkRecipient( std::string from )
+{
+    return true;
 }
 
 }
