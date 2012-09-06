@@ -229,6 +229,7 @@ void Config::load( const char* fname )
             std::string foreignHost = *it;
         }
     }
+    lua_pop( L, 1 );
 
     /***********************
      *load authorizedUsers *
@@ -249,7 +250,7 @@ void Config::load( const char* fname )
 
         for( std::vector<std::string>::iterator it = authorizedUsers->begin(); it != authorizedUsers->end(); ++it )
         {
-            std::string authorizedUsers = *it;
+            std::string authorizedUser = *it;
         }
     }
 
@@ -319,6 +320,11 @@ std::string Config::getSharedSecret()
 std::vector<std::string> * Config::getForeignHosts()
 {
     return foreignHosts;
+}
+
+std::vector<std::string> * Config::getAuthorizedUsers()
+{
+    return authorizedUsers;
 }
 
 }

@@ -113,7 +113,16 @@ std::string Bot::contactHosts( std::string command )
 
 bool Bot::checkRecipient( std::string from )
 {
-    return true;
+    std::vector<std::string> * authorizedUsers = Config::getSingletonPtr()->getAuthorizedUsers();
+    for( std::vector<std::string>::iterator it = authorizedUsers->begin(); it != authorizedUsers->end(); ++it )
+    {
+        std::string authorizedUser = *it;
+        if( from.find( authorizedUser ) == 0 && from.size() == authorizedUser.size() )
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 }
