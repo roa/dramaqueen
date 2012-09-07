@@ -14,6 +14,7 @@ Bot::Bot()
 Bot::~Bot()
 {
     delete j;
+    j = NULL;
     Helper::log( "Bot: an error occured: shutting down bot" );
 }
 
@@ -45,6 +46,7 @@ void Bot::initXMPP()
     j = new Client( jid, Config::getSingletonPtr()->getXmppPasswd() );
     j->registerConnectionListener( this );
     j->registerMessageHandler( this );
+    //j->setServer( "talk.google.com" );
     j->logInstance().registerLogHandler( LogLevelDebug, LogAreaAll, this );
 
     Helper::log( "initialized bot..." );

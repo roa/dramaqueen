@@ -38,6 +38,8 @@ Config::~Config()
 {
     delete foreignHosts;
     delete authorizedUsers;
+    foreignHosts = NULL;
+    authorizedUsers = NULL;
 }
 
 void Config::load( const char* fname )

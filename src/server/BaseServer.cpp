@@ -11,6 +11,7 @@ BaseServer::BaseServer()
 BaseServer::~BaseServer()
 {
     SSL_CTX_free( ctx );
+    ctx = NULL;
 }
 
 void BaseServer::initServer()
@@ -124,6 +125,7 @@ void BaseServer::run()
             SSL_accept( ssl );
             handleClient();
             SSL_free(ssl);
+            ssl = NULL;
         }
     }
 }

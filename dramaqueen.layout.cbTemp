@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="src/config/Config.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="3956" topLine="0" />
+	<File name="src/config/Config.cpp" open="1" top="0" tabpos="9">
+		<Cursor position="4442" topLine="145" />
 	</File>
-	<File name="src/config/Config.hpp" open="0" top="0" tabpos="3">
-		<Cursor position="582" topLine="0" />
+	<File name="src/config/Config.hpp" open="1" top="0" tabpos="8">
+		<Cursor position="1011" topLine="0" />
 	</File>
 	<File name="src/helper/Helper.cpp" open="0" top="0" tabpos="5">
 		<Cursor position="409" topLine="0" />
@@ -22,20 +22,20 @@
 	<File name="src/news/NewsForge.hpp" open="0" top="0" tabpos="12">
 		<Cursor position="1109" topLine="0" />
 	</File>
-	<File name="src/news/bot/Bot.cpp" open="0" top="0" tabpos="6">
-		<Cursor position="212" topLine="0" />
+	<File name="src/news/bot/Bot.cpp" open="1" top="0" tabpos="7">
+		<Cursor position="2689" topLine="38" />
 	</File>
-	<File name="src/news/bot/Bot.hpp" open="0" top="0" tabpos="7">
-		<Cursor position="412" topLine="0" />
+	<File name="src/news/bot/Bot.hpp" open="1" top="0" tabpos="6">
+		<Cursor position="1333" topLine="0" />
 	</File>
-	<File name="src/news/client/BaseClient.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="333" topLine="0" />
+	<File name="src/news/client/BaseClient.cpp" open="1" top="1" tabpos="5">
+		<Cursor position="1094" topLine="0" />
 	</File>
 	<File name="src/news/client/BaseClient.hpp" open="1" top="0" tabpos="4">
-		<Cursor position="327" topLine="8" />
+		<Cursor position="939" topLine="0" />
 	</File>
 	<File name="src/news/daemon/Daemon.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="2996" topLine="0" />
+		<Cursor position="2996" topLine="12" />
 	</File>
 	<File name="src/news/daemon/Daemon.hpp" open="0" top="0" tabpos="1">
 		<Cursor position="62" topLine="0" />
@@ -46,10 +46,10 @@
 	<File name="src/news/daemon/DaemonForge.hpp" open="0" top="0" tabpos="11">
 		<Cursor position="638" topLine="0" />
 	</File>
-	<File name="src/server/BaseServer.cpp" open="1" top="1" tabpos="2">
-		<Cursor position="2049" topLine="63" />
+	<File name="src/server/BaseServer.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="1946" topLine="0" />
 	</File>
-	<File name="src/server/BaseServer.hpp" open="1" top="0" tabpos="5">
-		<Cursor position="639" topLine="0" />
+	<File name="src/server/BaseServer.hpp" open="1" top="0" tabpos="2">
+		<Cursor position="513" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>

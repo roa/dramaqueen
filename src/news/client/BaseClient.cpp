@@ -90,6 +90,8 @@ void BaseClient::destroyBio()
 {
     SSL_CTX_free( ctx );
     BIO_free_all( bio );
+    ctx = NULL;
+    bio = NULL;
 }
 
 std::string BaseClient::connectToServer()
