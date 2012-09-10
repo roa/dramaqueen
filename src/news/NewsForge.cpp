@@ -54,7 +54,7 @@ void NewsForge::initDaemonForge( std::string daemonDir, Client* _j, ConnectionEr
         *it = std::thread{ DaemonForge( daemonList.at( count ), _j, ce ) };
         ++count;
     }
-    for( auto&& i : threads )
+    for( auto& i : threads )
     {
         i.join();
     }
