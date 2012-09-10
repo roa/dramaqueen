@@ -8,6 +8,7 @@ dependencies:
 	openssl>=1.0.0
 	lua>=5.1
 	gloox>=1.0
+    gcc>=4.6
 
 clone repo:
 	

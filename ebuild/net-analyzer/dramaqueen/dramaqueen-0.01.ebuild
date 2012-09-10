@@ -17,7 +17,8 @@ IUSE=""
 
 DEPEND="net-libs/gloox
 		>=dev-lang/lua-5.1.0
-		dev-libs/openssl"
+		dev-libs/openssl
+		>=sys-devel/gcc-4.6.3"
 
 RDEPEND="${DEPEND}"
 
