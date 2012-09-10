@@ -47,8 +47,6 @@ void Bot::initXMPP()
     j->registerConnectionListener( this );
     j->registerMessageHandler( this );
     //j->setServer( "talk.google.com" );
-    j->logInstance().registerLogHandler( LogLevelDebug, LogAreaAll, this );
-
     Helper::log( "initialized bot..." );
 }
 
@@ -85,11 +83,6 @@ void Bot::handleMessage( const Message& stanza, MessageSession* session )
         Message msg( type, stanza.from(), "You are not in the recipients list. Contact your admin." );
         j->send( msg );
     }
-}
-
-void Bot::handleLog( LogLevel level, LogArea area, const std::string& message )
-{
-    //printf("log: level: %d, area: %d, %s\n", level, area, message.c_str() );
 }
 
 std::string Bot::contactHosts( std::string command )

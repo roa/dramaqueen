@@ -29,7 +29,7 @@ using namespace gloox;
 namespace Dramaqueen
 {
 
-class Bot : public MessageHandler, LogHandler, ConnectionListener
+class Bot : public MessageHandler, ConnectionListener
 {
 
 public:
@@ -49,7 +49,6 @@ private:
     virtual void onDisconnect( ConnectionError e );
     virtual bool onTLSConnect( const CertInfo& info );
     virtual void handleMessage( const Message& stanza, MessageSession* session = 0 );
-    virtual void handleLog( LogLevel level, LogArea area, const std::string& message );
 
     std::string contactHosts( std::string command );
     bool checkRecipient( std::string from );
