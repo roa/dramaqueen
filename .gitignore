@@ -13,3 +13,4 @@ daemon/zabbix_adeven.lua
 daemon/zabbix_muewulff.lua
 script/check
 script/test.lua
+script/test2.lua
