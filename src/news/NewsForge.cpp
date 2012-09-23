@@ -6,7 +6,6 @@ namespace Dramaqueen
 NewsForge::NewsForge()
 {
     Helper::log( "initializing message system..." );
-    sleep( 5 );
 }
 
 NewsForge::~NewsForge()
@@ -81,7 +80,7 @@ void NewsForge::destroyBot()
     j = NULL;
     ce = NULL;
     delete bot;
-    Helper::log( "destoryed bot" );
+    Helper::log( "destroyed bot" );
 }
 
 void NewsForge::initNews()
@@ -95,8 +94,6 @@ void NewsForge::initNews()
         std::thread botThread( &NewsForge::startBot, *this );
         while( i++ < 3 )
         {
-            sleep( 5 );
-
             if( ! ( j == NULL || ce == NULL ) )
             {
                 initDaemon = true;
